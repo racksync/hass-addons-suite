@@ -18,13 +18,9 @@ http:
   use_x_forwarded_for: true
   trusted_proxies:
     - 127.0.0.1
-    - ::1
 ```
 
-
 ![racksync-screenshot](https://github.com/racksync/hass-addons-cloudflared-tunnel/blob/main/zerotrust/screenshot.png?raw=true)
-
-
 
 ### Automation Training
 
