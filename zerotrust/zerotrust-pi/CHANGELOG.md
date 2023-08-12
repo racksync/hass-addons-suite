@@ -1,5 +1,10 @@
 ### CHANGELOG
 
+## 2023.8.1
+### Update
+  - remove ```host_pid``` and ```map```
+  - Minimum Home Assistant 2023.8.1 Requirement
+
 ## 2023.7.1
 ### Update
   - Legacy mode discontinued
