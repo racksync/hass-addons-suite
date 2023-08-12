@@ -5,10 +5,16 @@ jobs:
   replace-hass-addons-cloudflared-tunnel:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+     
+      - uses: actions/checkout@main
+     
       - name: Find and Replace
-        uses: jacobtomlinson/gha-find-replace@v3
+        uses: thiagodnf/string-replacer@v1.0.2
         with:
           find: "github.com/racksync/hass-addons-cloudflared-tunnel"
           replace: "github.com/racksync/hass-addons-suite/tree/main/zerotrust"
-          include: "**config.yaml"
+          include: |
+            zerotrust/**/*.yaml
+          exclude: |
+            .git/**
+            node_modules/**
