@@ -1,0 +1,14 @@
+name: Replace Repository URL with mono-repo base.
+on: [push, pull_request]
+
+jobs:
+  replace-hass-addons-cloudflared-tunnel:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Find and Replace
+        uses: jacobtomlinson/gha-find-replace@v3
+        with:
+          find: "github.com/racksync/hass-addons-cloudflared-tunnel"
+          replace: "github.com/racksync/hass-addons-suite/tree/main/zerotrust"
+          regex: false
