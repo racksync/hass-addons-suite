@@ -5,10 +5,10 @@ jobs:
   replace-hass-addons-cloudflared-tunnel:
     runs-on: ubuntu-latest
     steps:
-      - name: Replace Pull Request Body
-        uses: ivangabriele/find-and-replace-pull-request-body@v1.1.5
+      - name: Replace string in file
+        uses: MathieuSoysal/replace-string-in-file@v1.0.0
         with:
-          githubToken: ${{ secrets.GITHUB_TOKEN }}
-          find: hass-addons-cloudflared-tunnel
-          replace: hass-addons-suite
+          file: zerotrust/zerotrust/config.yaml
+          old-string: hass-addons-cloudflared-tunnel
+          new-string: hass-addons-suite
 
