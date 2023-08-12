@@ -1,0 +1,37 @@
+version: 2023.8.1
+slug: racksync-cloudflare-ddns
+name: Cloudflare DDNS
+description: Cloudflare DNS Record Updater from RACKSYNC.COM
+url: https://github.com/racksync/hass-addons-suite/tree/main/cloudflare-ddns
+codenotary: devops@racksync.com
+ingress: false
+init: false
+arch:
+  - armhf
+  - armv7
+  - aarch64
+  - amd64
+  - i386
+startup: system
+hassio_api: false
+boot: auto
+host_network: false
+apparmor: true
+host_pid: false
+homeassistant: 2023.8.1
+advanced: true
+stage: stable
+options:
+  token: ""
+  zone: ""
+  record: ""
+  name: "cloud"
+  ttl: "120"
+  debug: false
+schema:
+  token: str
+  zone: str
+  record: str
+  name: str?
+  ttl: str?
+  debug: bool

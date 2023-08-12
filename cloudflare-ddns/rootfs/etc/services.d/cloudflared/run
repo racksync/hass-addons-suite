@@ -1,0 +1,72 @@
+#!/usr/bin/with-contenv bashio
+
+LAST_IP=""
+IP_CHANGED_MESSAGE_SHOWN=false
+
+log() {
+    local message=$1
+    bashio::log.info "$message"
+}
+
+check_internet() {
+    ping -c 1 8.8.8.8 > /dev/null 2>&1
+    if [ $? -ne 0 ]; then
+        bashio::log.error "No Internet connection detected."
+        return 1
+    fi
+    return 0
+}
+
+TOKEN=$(bashio::config 'token')
+ZONE=$(bashio::config 'zone')
+RECORD=$(bashio::config 'record')
+TYPE="A"  # RECORD TYPE
+NAME=$(bashio::config 'name')
+TTL=$(bashio::config 'ttl')
+PROXIED="false" # SET PROXY AS "FALSE" PRIOR TO NO PROXY REQUIRE (DNS ONLY)
+DEBUG=$(bashio::config 'debug')
+
+bashio::log.info "Starting update DNS Record 🚀...."
+
+while true; do
+    if check_internet; then
+        PUBLIC_IP=$(curl -s http://ipinfo.io/ip)
+
+        if [ "$PUBLIC_IP" != "$LAST_IP" ]; then
+
+            # Construct the updated JSON data using the configs
+            UPDATED_DATA=$(jq --arg ip "$PUBLIC_IP" --arg type "$TYPE" --arg name "$NAME" --arg ttl "$TTL" \
+            '. |= . + {type: $type, name: $name, content: $ip, ttl: ($ttl|tonumber), proxied: '$PROXIED'}' <<< "{}")
+
+            RESPONSE=$(curl -sS -X PUT "https://api.cloudflare.com/client/v4/zones/$ZONE/dns_records/$RECORD" \
+            -H "Authorization: Bearer $TOKEN" \
+            -H "Content-Type: application/json" --data "$UPDATED_DATA")
+
+            SUCCESS=$(echo "$RESPONSE" | jq -r '.success')
+
+            if [ "$SUCCESS" = "true" ]; then
+                IP_CHANGED_MESSAGE_SHOWN=false
+                [ "$DEBUG" = "true" ] && log "$(printf '\n%s' "$UPDATED_DATA")"
+                log "Update successful with IP: $PUBLIC_IP"
+                LAST_IP="$PUBLIC_IP"
+            else
+                bashio::log.error "Update failed ❌"
+                ERRORS=$(echo "$RESPONSE" | jq -r '.errors[]?.message')
+                if [ -n "$ERRORS" ]; then
+                    bashio::log.error "DETAILS: $ERRORS"
+                else
+                    [ "$DEBUG" = "true" ] && bashio::log.error "FULL DEBUG:\n$RESPONSE"
+                fi
+
+            fi
+        else
+            if [ "$IP_CHANGED_MESSAGE_SHOWN" = "false" ]; then
+                log "IP hasn't changed. No update required."
+                IP_CHANGED_MESSAGE_SHOWN=true
+            fi
+        fi
+    else
+        bashio::log.error "Retrying in 10 seconds... 🤙🏻"
+        sleep 10
+    fi
+done
