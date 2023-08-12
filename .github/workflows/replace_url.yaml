@@ -9,6 +9,6 @@ jobs:
         uses: MathieuSoysal/replace-string-in-file@v1.0.0
         with:
           file: zerotust/zerotrust/config.yaml
-          old-string: github.com/racksync/hass-addons-cloudflared-tunnel
-          new-string: github.com/racksync/hass-addons-suite/tree/main/zerotrust'
+          old-string: hass-addons-cloudflared-tunnel
+          new-string: hass-addons-suite/tree/main/zerotrust'
 
