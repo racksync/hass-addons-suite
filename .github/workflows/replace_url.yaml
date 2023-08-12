@@ -11,4 +11,4 @@ jobs:
         with:
           find: "github.com/racksync/hass-addons-cloudflared-tunnel"
           replace: "github.com/racksync/hass-addons-suite/tree/main/zerotrust"
-          include: "zerotrust/**"
+          include: "**config.yaml"
