@@ -7,10 +7,6 @@
 [![alpine-amd64](https://img.shields.io/badge/amd64-yes-brightgreen)](https://alpinelinux.org/releases/) 
 [![alpine-i386](https://img.shields.io/badge/i386-yes-brightgreen)](https://alpinelinux.org/releases/)[![cloudflare-argo-tunnel-release](https://img.shields.io/github/v/release/racksync/hass-addons-cloudflared-tunnel)](https://github.com/racksync/hass-addons-cloudflared-tunnel/releases) [![last commit](https://img.shields.io/github/last-commit/racksync/hass-addons-cloudflared-tunnel)](https://github.com/racksync/hass-addons-cloudflared-tunnel/commit/)
 
-## Disclaimer ###
-
-Add-on ตัวนี้เหมาะสำหรับคนที่มีเชี่ยวชาญการทำ tunnel ด้วย Cloudflare Zero Trust อยู่แล้ว 
-
 ## How to Install & Setup
 
 อ่านคู่มือและวิธีการแบบละเอียดผ่าน Document Tab ของ Add-on
@@ -26,12 +22,6 @@ Add-on ตัวนี้เหมาะสำหรับคนที่มี�
 - [Home Automation Marketplace](https://www.facebook.com/groups/hatmarketplace)
 - [Home Automation Thailand Discord](https://discord.gg/Wc5CwnWkp4)
 
-### More
-
-- [X] No Automatic Update (cloudflared binary) 
-- [X] Protocal Support (QUIC, HTTP/2)
-- [X] Additional Arguments Support
-- [X] Low Learning Curve
 
 ## [RACKSYNC CO., LTD.](https://racksync.com)
 
