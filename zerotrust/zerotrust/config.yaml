@@ -21,9 +21,6 @@ host_pid: false
 homeassistant: 2023.8.1
 advanced: true
 stage: stable
-map: 
-  - config:ro
-  - ssl:ro
 options:
   token: ""
   desc: ""
