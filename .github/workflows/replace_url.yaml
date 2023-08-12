@@ -5,12 +5,10 @@ jobs:
   replace-hass-addons-cloudflared-tunnel:
     runs-on: ubuntu-latest
     steps:
-     
-      - uses: actions/checkout@main
-     
-      - name: Find and Replace
-        uses: datamonsters/replace-action
+      - name: Replace string in file
+        uses: MathieuSoysal/replace-string-in-file@v1.0.0
         with:
-          files: 'zerotust/zerotrust/config.yaml,zerotust/zerotrust-pi/config.yaml'
-          replacements: 'github.com/racksync/hass-addons-cloudflared-tunnel,github.com/racksync/hass-addons-suite/tree/main/zerotrust'
+          file: zerotust/zerotrust/config.yaml
+          old-string: github.com/racksync/hass-addons-cloudflared-tunnel
+          new-string: github.com/racksync/hass-addons-suite/tree/main/zerotrust'
 
