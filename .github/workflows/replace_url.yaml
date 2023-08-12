@@ -9,12 +9,8 @@ jobs:
       - uses: actions/checkout@main
      
       - name: Find and Replace
-        uses: thiagodnf/string-replacer@v1.0.2
+        uses: datamonsters/replace-action
         with:
-          find: "github.com/racksync/hass-addons-cloudflared-tunnel"
-          replace: "github.com/racksync/hass-addons-suite/tree/main/zerotrust"
-          include: |
-            zerotrust/**/*.yaml
-          exclude: |
-            .git/**
-            node_modules/**
+          files: 'zerotust/zerotrust/config.yaml,zerotust/zerotrust-pi/config.yaml'
+          replacements: 'github.com/racksync/hass-addons-cloudflared-tunnel,github.com/racksync/hass-addons-suite/tree/main/zerotrust'
+
