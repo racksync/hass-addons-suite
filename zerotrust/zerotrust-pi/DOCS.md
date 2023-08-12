@@ -37,12 +37,3 @@ http:
 - [Home Automation Marketplace](https://www.facebook.com/groups/hatmarketplace)
 - [Home Automation Thailand Discord](https://discord.gg/Wc5CwnWkp4)
 
-### More
-
-- [X] Token Support
-- [X] Zero Trust Support
-- [X] Switch out from Legacy mode
-- [X] Add Note Input Field 
-- [X] Re-factor Slug URL
-- [X] Fix a tiny container bug :tada:
-
