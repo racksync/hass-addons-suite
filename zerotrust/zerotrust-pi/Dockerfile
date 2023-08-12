@@ -28,7 +28,6 @@ RUN set -x \
     && mv cloudflared /usr/bin/cloudflared \
     && chmod 755 /usr/bin/cloudflared
 
-
 COPY rootfs /
 RUN chmod a+x -R /etc/
 WORKDIR /
