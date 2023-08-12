@@ -10,5 +10,5 @@ jobs:
         with:
           file: zerotrust/zerotrust/config.yaml
           old-string: 'hass-addons-cloudflared-tunnel'
-          new-string: 'hass-addons-suite\/tree\/main\/zerotrust'
+          new-string: 'hass-addons-suite'
 
