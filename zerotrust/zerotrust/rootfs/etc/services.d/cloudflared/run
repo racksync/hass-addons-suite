@@ -2,7 +2,7 @@
 
 TOKEN=$(bashio::config 'token')
 
-bashio::log.info "Starting Cloudflare Services"
+bashio::log.info "Starting Cloudflare Tunnel Services"
 bashio::log.info "Made with Love from Thailand, Bring to you by RACKSYNC 🇹🇭"
 
 mkdir -p /root/.cloudflared/
