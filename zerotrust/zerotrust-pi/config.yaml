@@ -1,4 +1,4 @@
-version: 2023.7.1
+version: 2023.8.1
 slug: racksync-cloudflare-tunnel-zerotrust-pi
 name: Cloudflare Tunnel for Raspberry Pi (Zero Trust)
 description: Cloudflare Tunnel from RACKSYNC.COM 
@@ -17,8 +17,8 @@ hassio_api: false
 boot: auto
 host_network: true
 apparmor: true
-host_pid: true
-homeassistant: 2023.7.1
+host_pid: false
+homeassistant: 2023.8.1
 advanced: true
 stage: stable
 map: 
