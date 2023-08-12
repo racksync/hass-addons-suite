@@ -8,7 +8,7 @@ jobs:
       - name: Replace string in file
         uses: MathieuSoysal/replace-string-in-file@v1.0.0
         with:
-          file: zerotust/zerotrust/config.yaml
+          file: zerotrust/zerotrust/config.yaml
           old-string: 'https:\/\/github.com\/racksync\/hass-addons-cloudflared-tunnel'
           new-string: 'https:\/\/github.com\/racksync\/hass-addons-suite\/tree\/main\/zerotrust'
 
