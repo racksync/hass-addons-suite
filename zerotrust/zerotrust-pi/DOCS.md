@@ -4,7 +4,7 @@
 
 1. ติดตั้ง addon ด้วยการ add repository : https://github.com/racksync/hass-addons-cloudflared-tunnel เข้าไปยัง addon list ตามปกติ
 2. สร้าง Tunnel จาก [Zero Trust Dashboard](https://dash.teams.cloudflare.com/)
-3. เข้าไปตั้งค่า addon กรอก token ที่ได้จากข้อ 2 (หากเป็นกรณีใช้ไฟล์ config.yaml ที่สร้างขึ้นเองให้นำไฟล์ไปวางไว้ที่ /ssl จากนั้น add-on จะดึง configuration มาใช้อัตโนมัติ
+3. เข้าไปตั้งค่า addon กรอก token ที่ได้จากข้อ 2
 4. ตั้งค่า configuration.yaml จากนั้น Restart Home Assistant
 
 ```
