@@ -1,9 +1,5 @@
 # Home Assistant Cloudflare Tunnel - Zero Trust
 
-## Disclaimer ###
-
-addon ตัวนี้เหมาะสำหรับคนที่มีเชี่ยวชาญการทำ tunnel ด้วย Cloudflare Zero Trust อยู่แล้ว 
-
 ## How to Install Add-on
 
 1. ติดตั้ง addon ด้วยการ add repository : https://github.com/racksync/hass-addons-cloudflared-tunnel เข้าไปยัง addon list ตามปกติ
