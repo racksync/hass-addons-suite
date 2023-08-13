@@ -1,0 +1,19 @@
+configuration:
+  hostname: 
+    name: Destination Address
+    description: 
+  ssh_port: 
+    name: SSH Port 
+    description: Default is set to 22
+  username: 
+    name: SSH Username
+    description: 
+  remote_forwarding: 
+    name: Forwarding Rules
+    description: Set forwarding rule as destination:origin
+  other_ssh_options: 
+    name: Other Option
+    description: As you wish
+  force_keygen: 
+    name: Force Keygen
+    description: 
