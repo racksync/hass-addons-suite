@@ -2,7 +2,7 @@ version: 2023.8.1
 slug: racksync-cloudflare-tunnel-zerotrust
 name: Cloudflare Tunnel Zero Trust
 description: Cloudflare Tunnel from RACKSYNC.COM 
-url: https://github.com/racksync/hass-addons-cloudflared-tunnel
+url: https://github.com/racksync/hass-addons-suite/tree/main/zerotrust/zerotrust
 codenotary: devops@racksync.com
 ingress: false
 init: false
