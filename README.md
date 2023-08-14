@@ -7,7 +7,15 @@
 [![alpine-i386](https://img.shields.io/badge/i386-yes-brightgreen)](https://alpinelinux.org/releases/)
 [![hass-addons-suite-release](https://img.shields.io/github/v/release/racksync/hass-addons-suite)](https://github.com/racksync/hass-addons-suite/releases) [![last commit](https://img.shields.io/github/last-commit/racksync/hass-addons-suite)](https://github.com/racksync/hass-addons-suite/commit/)
 
-What if there was a singular solution that could simplify your entire installation process? We present to you the unified Home Assistant Add-Ons Suite by RACKSYNC CO., LTD. With this suite, you can effortlessly install and manage a range of add-ons with just a single URL. Our handpicked selection has been curated to offer you the most essential and transformative tools for your smart home ecosystem.
+Centralizes and simplifies the installation of essential add-ons in a single repository, This suite streamlines the process of adding and handling multiple add-ons. Use a single URL and you're set. Our team handpicked these tools to enhance your smart home setup.
+
+## Getting Started:
+
+To set up and make the most of these add-ons, start by adding the repository URL to Home Assistant by navigating to the add-on store and entering **```https://github.com/racksync/hass-addons-suite```** once. This will give you access to the suite of add-ons available.
+
+Next, we recommend reading the README within each add-on. It's packed with step-by-step guidance, ensuring you get up and running in no time. Discover the future of Home Assistant management, all under one repository.
+
+
 
 ## Here's what's included in our suite:
 
@@ -19,9 +27,6 @@ What if there was a singular solution that could simplify your entire installati
 
 - [**Multipoint Zigbee**](https://github.com/racksync/hass-addons-suite/tree/main/multipoint-zigbee) - Streamline your Zigbee network management. This add-on allows you to connect multiple Zigbee gateways, making it simpler than ever to onboard and manage a myriad of Zigbee devices.
 
-## Getting Started:
-
-To set up and make the most of these add-ons, we recommend reading the README within each add-on. It's packed with step-by-step guidance, ensuring you get up and running in no time. Discover the future of Home Assistant management, all under one repository.
 
 ### Automation Training
 
