@@ -11,7 +11,7 @@ Centralizes and simplifies the installation of essential add-ons in a single rep
 
 ## Getting Started:
 
-To set up and make the most of these add-ons, start by adding the repository URL to Home Assistant by navigating to the add-on store and entering **```https://github.com/racksync/hass-addons-suite```** once. This will give you access to the suite of add-ons available.
+To set up and make the most of these add-ons, You start by adding the repository URL to Home Assistant by navigating to the add-on store and entering ```https://github.com/racksync/hass-addons-suite``` once into Repository List. This will give you access to the suite of add-ons available.
 
 Next, we recommend reading the README within each add-on. It's packed with step-by-step guidance, ensuring you get up and running in no time. Discover the future of Home Assistant management, all under one repository.
 
