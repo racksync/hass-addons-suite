@@ -5,6 +5,7 @@
   - Base Image 3.18
   - Minimum Home Assistant 2023.8.1 Requirement
   - Improve Security Rating
+  - Apparmor Enabled
 
 ## 2022.07.19
 ### Change

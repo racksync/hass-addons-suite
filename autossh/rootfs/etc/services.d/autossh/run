@@ -7,10 +7,10 @@
 # Add your code here
 
 # Declare variables
-declare message
+#declare message
 
 ## Get the 'message' key from the user config options.
-message=$(bashio::config 'desc')
+message=$(bashio::config 'note')
 
 ## Print the message the user supplied, defaults to "Hello World..."
 #bashio::log.info "${desc:="This addon is running with bashio!"}"
