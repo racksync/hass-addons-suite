@@ -1,6 +1,9 @@
 #include <tunables/global>
 
-profile racksync-autossh-tunnel flags=(attach_disconnected,mediate_deleted) {
+profile racksync-autossh-tunnel {
+  
+  # STANDARD RACKSYNC SUITE
+
   #include <abstractions/base>
 
   # Capabilities
@@ -24,36 +27,56 @@ profile racksync-autossh-tunnel flags=(attach_disconnected,mediate_deleted) {
   /usr/lib/bashio/** ix,
   /tmp/** rwk,
 
-  # Access to options.json and other files within your addon
-  /data/** rw,
 
-  # Start new profile for service
-  /usr/bin/my_program cx -> my_program,
+  # AppArmor rules
+  capability net_raw,
+  capability net_bind_service,
 
-  profile my_program flags=(attach_disconnected,mediate_deleted) {
-    #include <abstractions/base>
+  # Network access rules
+  network inet stream,
+  network inet dgram,
 
-    # Receive signals from S6-Overlay
-    signal (receive) peer=*_example,
 
-    # Access to options.json and other files within your addon
-    /data/** rw,
 
-    # Access to mapped volumes specified in config.json
-    /share/** rw,
 
-    # Access required for service functionality
-    # Note: List was built by doing the following:
-    # 1. Add what is obviously needed based on what is in the script
-    # 2. Add `complain` as a flag to this profile temporarily and run the addon
-    # 3. Review the audit log with `journalctl _TRANSPORT="audit" -g 'apparmor="ALLOWED"'` and add other access as needed
-    # Remember to remove the `complain` flag when you are done
-    /usr/bin/autossh rix,
-    /run.sh rix,
-    /bin/bash rix,
-    /bin/echo ix,
-    /etc/passwd r,
-    /dev/tty rw,
 
-  }
+
+  # For bash and required shell operations
+  /bin/bash rix,
+  /bin/dash rix,
+
+  # Access to the mentioned configuration and keys
+  /data/options.json r,
+  /data/ssh_keys/** rwk,
+
+  # Required for jq utility
+  /usr/bin/jq rix,
+
+  # Logs, you might need to modify it based on where you're logging
+  /var/log/** w,
+
+  # Required binaries
+  /usr/bin/autossh rix,
+  /usr/bin/ssh-keyscan rix,
+  /usr/bin/ssh rix,
+
+  # Miscellaneous operations
+  @{HOME}/.ssh/ r,
+  @{HOME}/.ssh/** r,
+  /etc/passwd r,
+  /etc/group r,
+
+
+  # The profile also needs to include various shared libraries that are used by the above utilities.
+  /lib/** rm,
+  /lib64/** rm,
+  /usr/lib/** rm,
+  /usr/lib64/** rm,
+
+  # Include abstractions which are common access patterns.
+  # This is a useful way to simplify profiles
+  # Adjust according to your system
+  #include <abstractions/base>
+  #include <abstractions/bash>
+  #include <abstractions/openssl>
 }
