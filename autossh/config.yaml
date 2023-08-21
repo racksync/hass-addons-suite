@@ -1,4 +1,4 @@
-version: 2023.8.1
+version: 2023.8.2
 slug: racksync-autossh-tunnel
 name: AutoSSH Tunnel for Home Assistant
 description: SSH Tunnel for Home Assistant from RACKSYNC.COM
@@ -15,7 +15,7 @@ arch:
 startup: system
 hassio_api: false
 boot: auto
-host_network: false
+host_network: true
 apparmor: true
 host_pid: false
 homeassistant: 2023.8.1

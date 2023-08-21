@@ -1,5 +1,9 @@
 ### CHANGELOG
 
+## 2023.8.2
+### Change
+  - host_network: true
+
 ## 2023.8.1
 ### Change
   - Base Image 3.18
