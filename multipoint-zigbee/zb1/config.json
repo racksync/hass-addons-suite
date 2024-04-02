@@ -1,8 +1,8 @@
 {
   "name": "RACKSYNC ZB #1",
-  "version": "1.32.1-1",
+  "version": "1.36.1-1",
   "slug": "racksync-multipoint-zigbee-1",
-  "description": "Run multipoint Zigbee2MQTT Coordinator separately from an Official",
+  "description": "Run Zigbee2MQTT Coordinator separately",
   "uart": true,
   "url": "https://github.com/racksync/hass-addons-suite/tree/main/multipoint-zigbee/zb1",
   "startup": "application",
@@ -26,7 +26,7 @@
     "config:rw"
   ],
   "ports": {
-    "8485/tcp": 8485,
+    "8485/tcp": 8486,
     "8099/tcp": null
   },
   "ports_description": {
@@ -34,7 +34,7 @@
     "8099/tcp": "Frontend tcp-listen port"
   },
   "options": {
-    "data_path": "/config/racksync_z2m_1",
+    "data_path": "/config/zb1",
     "socat": {
       "enabled": false,
       "master": "pty,raw,echo=0,link=/tmp/ttyZ2M,mode=777",
@@ -42,9 +42,7 @@
       "options": "-d -d",
       "log": false
     },
-    "mqtt": { 
-      "base_topic": "racksync_z2m_1" 
-    },
+    "mqtt": {},
     "serial": {}
   },
   "schema": {
@@ -67,7 +65,7 @@
     },
     "serial": {
       "port": "str?",
-      "adapter": "match(zstack|deconz|zigate|ezsp)?",
+      "adapter": "match(zstack|deconz|zigate|ezsp|ember)?",
       "baudrate": "int?",
       "rtscts": "bool?"
     }
