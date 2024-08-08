@@ -1,5 +1,9 @@
 ### CHANGELOG
 
+## 2024.8.1
+### Update
+  - add docker internal into ```http```integration
+
 ## 2023.8.1
 ### Update
   - remove ```host_pid``` and ```map```
