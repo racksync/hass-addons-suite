@@ -126,12 +126,54 @@ if [ -f "${KEY_PATH}/autossh_key" ]; then
     ${USERNAME}@${HOSTNAME}"
 fi
 
+# Function to validate forwarding format
+validate_forwarding() {
+  local forwarding="$1"
+  local type="$2"
+
+  # SSH forwarding format: [bind_address:]port:host:hostport
+  # Examples:
+  # - 127.0.0.1:3000:192.168.1.100:3000 (forward local 3000 to remote 192.168.1.100:3000)
+  # - 3000:192.168.1.100:3000 (forward local 3000 to remote 192.168.1.100:3000)
+  # - 127.0.0.1:3000:localhost:3000 (forward local 3000 to remote localhost:3000)
+
+  if [[ -z "$forwarding" ]]; then
+    return 0
+  fi
+
+  # Basic validation - should contain at least two colons
+  if [[ ! "$forwarding" =~ :.*: ]]; then
+    bashio::log.error "Bad ${type} forwarding specification '${forwarding}'"
+    bashio::log.error "Expected format: [bind_address:]port:host:hostport"
+    bashio::log.error "Example: 127.0.0.1:3000:192.168.1.100:3000"
+    bashio::log.error "Example: 3000:localhost:3000"
+    return 1
+  fi
+
+  # Count colons to ensure proper format
+  local colon_count=$(echo "$forwarding" | tr -cd ':' | wc -c)
+  if [[ $colon_count -lt 2 ]]; then
+    bashio::log.error "Bad ${type} forwarding specification '${forwarding}'"
+    bashio::log.error "Expected format: [bind_address:]port:host:hostport"
+    bashio::log.error "Example: 127.0.0.1:3000:192.168.1.100:3000"
+    bashio::log.error "Your specification has insufficient colon separators"
+    return 1
+  fi
+
+  return 0
+}
+
 # Add remote forwarding rules
 if [ ! -z "${REMOTE_FORWARDING}" ]; then
   while read -r LINE; do
     if [ ! -z "$LINE" ]; then
-      COMMAND="${COMMAND} -R ${LINE}"
-      bashio::log.info "Remote forwarding: ${LINE}"
+      if validate_forwarding "$LINE" "remote"; then
+        COMMAND="${COMMAND} -R ${LINE}"
+        bashio::log.info "Remote forwarding: ${LINE}"
+      else
+        bashio::log.error "Skipping invalid remote forwarding rule: ${LINE}"
+        exit 1
+      fi
     fi
   done <<< "${REMOTE_FORWARDING}"
 fi
@@ -140,8 +182,13 @@ fi
 if [ ! -z "${LOCAL_FORWARDING}" ]; then
   while read -r LINE; do
     if [ ! -z "$LINE" ]; then
-      COMMAND="${COMMAND} -L ${LINE}"
-      bashio::log.info "Local forwarding: ${LINE}"
+      if validate_forwarding "$LINE" "local"; then
+        COMMAND="${COMMAND} -L ${LINE}"
+        bashio::log.info "Local forwarding: ${LINE}"
+      else
+        bashio::log.error "Skipping invalid local forwarding rule: ${LINE}"
+        exit 1
+      fi
     fi
   done <<< "${LOCAL_FORWARDING}"
 fi

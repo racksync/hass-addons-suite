@@ -13,7 +13,7 @@ configuration:
     description: Format: [bind_address:]port:host:hostport - Example: 127.0.0.1:8081:127.0.0.1:8123
   local_forwarding:
     name: Local Forwarding Rules
-    description: Format: [bind_address:]port:host:hostport - Forward local port to remote service
+    description: Format: [bind_address:]port:host:hostport - Example: 127.0.0.1:3000:192.168.1.100:3000
   other_ssh_options:
     name: Additional SSH Options
     description: Extra options passed to SSH client (default: -v)

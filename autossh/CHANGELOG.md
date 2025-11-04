@@ -10,6 +10,8 @@
   - Fix Docker build by removing strict package version pinning
   - Improve Docker layer efficiency by combining RUN commands
   - Ensure compatibility with Alpine Linux 3.22 base image
+  - Fix local/remote forwarding format validation with better error messages
+  - Add comprehensive forwarding format validation to prevent SSH failures
 
 ### Major Updates
   - Upgrade Home Assistant base image to version 3.22
