@@ -1,8 +1,15 @@
 ### CHANGELOG
 
+## 2025.11.1
+### Update
+  - Fix Docker build issues with read-only file system permissions
+  - Update base image to 3.22
+  - Fix Dockerfile warnings and improve build consistency
+
 ## 2024.8.1
 ### Update
   - add docker internal into ```http```integration
+  - bump base image to 3.20
 
 ## 2023.8.1
 ### Update
