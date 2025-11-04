@@ -43,13 +43,25 @@ Next, we recommend reading the README within each add-on. It's packed with step-
 
 ## [RACKSYNC CO., LTD.](https://racksync.com)
 
-We helps our customers to create life easier across the border of entire technology stack with household and business solutions. We modernize life with Information Technology, Optimize and collect data to make everything possible, secure & trusty
-\
-\
-RACKSYNC COMPANY LIMITED \
-Suratthani, Thailand 84100 \
-Email : devops@racksync.com \
-Tel : +66 85 880 8885
+**Innovative Cloud & Infrastructure Solutions** - Specializing in automation technologies.
+
+RACKSYNC CO., LTD is a Thai technology company that helps customers create life easier across the entire technology stack with household and business solutions. We modernize life with Information Technology, optimize and collect data to make everything possible, secure & trustworthy.
+
+### Our Services:
+- **Cloud Infrastructure Design** - AWS, GCP solutions
+- **DevOps Implementation** - CI/CD pipelines and automation
+- **Container Orchestration** - Kubernetes and Docker
+- **Infrastructure as Code** - Terraform and Ansible
+- **Home & Industrial Automation** - Smart solutions for modern living
+
+### Technologies We Use:
+AWS, GCP, Kubernetes, Docker, Terraform, Ansible, GitHub Actions
+
+**RACKSYNC COMPANY LIMITED**
+Bangkok, Thailand
+Email: devops@racksync.com | people@racksync.com (hiring)
+Website: [racksync.com](https://racksync.com)
+Tel: +66 85 880 8885
 
 [![Home Automation Thailand Discord](https://img.shields.io/discord/986181205504438345?style=for-the-badge)](https://discord.gg/Wc5CwnWkp4) [![Github](https://img.shields.io/github/followers/racksync?style=for-the-badge)](https://github.com/racksync)
 [![WebsiteStatus](https://img.shields.io/website?down_color=grey&down_message=Offline&style=for-the-badge&up_color=green&up_message=Online&url=https%3A%2F%2Fracksync.com)](https://racksync.com)
