@@ -1,11 +1,11 @@
 # Home Assistant Add-ons Suite
 
-[![Base Image](https://img.shields.io/badge/Base%20Image-3.18-blue)](https://github.com/home-assistant/docker-base) [![alpine-armhf](https://img.shields.io/badge/armhf-yes-brightgreen)](https://alpinelinux.org/releases/)
+[![Base Image](https://img.shields.io/badge/Base%20Image-3.22-blue)](https://github.com/home-assistant/docker-base) [![alpine-armhf](https://img.shields.io/badge/armhf-yes-brightgreen)](https://alpinelinux.org/releases/)
 [![alpine-armv7](https://img.shields.io/badge/armv7-yes-brightgreen)](https://alpinelinux.org/releases/)
 [![alpine-aarch64](https://img.shields.io/badge/aarch64-yes-brightgreen)](https://alpinelinux.org/releases/)
 [![alpine-amd64](https://img.shields.io/badge/amd64-yes-brightgreen)](https://alpinelinux.org/releases/)
 [![alpine-i386](https://img.shields.io/badge/i386-yes-brightgreen)](https://alpinelinux.org/releases/)
-[![hass-addons-suite-release](https://img.shields.io/github/v/release/racksync/hass-addons-suite)](https://github.com/racksync/hass-addons-suite/releases) [![last commit](https://img.shields.io/github/last-commit/racksync/hass-addons-suite)](https://github.com/racksync/hass-addons-suite/commit/)
+
 
 Centralizes and simplifies the installation of essential add-ons in a single repository, This suite streamlines the process of adding and handling multiple add-ons. Use a single URL and you're set. Our team handpicked these tools to enhance your smart home setup.
 
