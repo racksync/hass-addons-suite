@@ -1,0 +1,83 @@
+name: Prometheus Node Exporter
+version: 2025.11.1
+slug: racksync-prometheus-node-exporter
+description: Expose hardware and OS metrics for Prometheus monitoring. Collects system statistics like CPU, memory, disk, and network usage from your Home Assistant host.
+# Updated with improved security, configurable collectors, and monorepo integration
+# Enhanced with comprehensive feature support and automated deployment
+url: https://github.com/racksync/hass-addons-suite/tree/main/node-exporter
+arch:
+  - amd64
+  - aarch64
+  - armv7
+init: false
+webui: '[PROTO:enable_tls]://[HOST]:[PORT:9100]/metrics'
+ports:
+  9100/tcp: 9100
+ports_description:
+  9100/tcp: Prometheus metrics endpoint (requires authentication if enabled)
+map:
+  - 'config:rw'
+  - 'ssl:ro'
+  - 'share:ro'
+startup: services
+boot: auto
+host_network: true
+apparmor: true
+host_pid: true
+homeassistant: "2023.8.1"
+advanced: true
+stage: stable
+hassio_api: false
+homeassistant_api: false
+auth_api: true
+docker_api: false
+ingress: false
+ingress_port: 0
+panel_title: Prometheus Node Exporter
+panel_icon: mdi:chart-line
+options:
+  enable_basic_auth: false
+  basic_auth_user: ""
+  basic_auth_pass: ""
+  enable_tls: false
+  cert_file: ""
+  cert_key: ""
+  cmdline_extra_args: ""
+  log_level: "info"
+  collectors:
+    cpu: true
+    meminfo: true
+    diskstats: true
+    netdev: true
+    netstat: true
+    filesystem: true
+    loadavg: true
+    time: true
+    wifi: false
+    hwmon: true
+  custom_collectors: []
+  ignore_mount_points: []
+  ignore_network_devices: []
+schema:
+  enable_basic_auth: bool
+  basic_auth_user: str?
+  basic_auth_pass: str?
+  enable_tls: bool
+  cert_file: str?
+  cert_key: str?
+  cmdline_extra_args: str?
+  log_level: list(trace|debug|info|warn|error)?
+  collectors:
+    cpu: bool?
+    meminfo: bool?
+    diskstats: bool?
+    netdev: bool?
+    netstat: bool?
+    filesystem: bool?
+    loadavg: bool?
+    time: bool?
+    wifi: bool?
+    hwmon: bool?
+  custom_collectors: list(str)?
+  ignore_mount_points: list(str)?
+  ignore_network_devices: list(str)?

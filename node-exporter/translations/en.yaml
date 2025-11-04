@@ -1,0 +1,25 @@
+configuration:
+  enable_basic_auth:
+    name: Enable HTTP Basic Authentication
+    description: Toggle on to enable HTTP basic authentication (i.e., password protection)
+  basic_auth_user:
+    name: Username
+    description: The basic auth username
+  basic_auth_pass:
+    name: Password
+    description: The basic auth password (needs to be a bcrypt password hash!)
+  enable_tls:
+    name: Enable TLS
+    description: Toggle on to enable TLS (you will need to provide a path to certificates)
+  cert_file:
+    name: Public Key
+    description: This is a /ssl/fullchain.pem
+  cert_key:
+    name: Private Key
+    description: This is a /ssl/privkey.pem
+  cmdline_extra_args:
+    name: Command line extra arguments
+    description: Extra arguments to pass to the "node_exporter" command at startup (see https://github.com/prometheus/node_exporter/#installation-and-usage for more information)
+  note:
+    name: Extra Note
+    description: Anything you want to note
