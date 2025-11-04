@@ -1,98 +1,188 @@
-# Prometheus Node Exporter
+# Prometheus Node Exporter for Home Assistant
 
-The Prometheus [Node Exporter](https://github.com/prometheus/node_exporter) for hardware and OS metrics exposed by \*NIX kernels.
+**Source Repository** - This repository contains the source code for the Prometheus Node Exporter add-on that automatically syncs to the [Home Assistant Add-ons Suite](https://github.com/racksync/hass-addons-suite/tree/main/node-exporter).
+
+## Overview
+
+This add-on exposes hardware and OS metrics for Prometheus monitoring. It collects comprehensive system statistics like CPU, memory, disk, and network usage from your Home Assistant host and makes them available through the Prometheus metrics format.
+
+## Features
+
+- **Hardware Metrics**: CPU, memory, disk usage, and temperature monitoring
+- **Network Statistics**: Real-time network interface monitoring
+- **Security-First**: AppArmor protection, minimal permissions, principle of least privilege
+- **Configurable**: Enable/disable specific collectors based on your needs
+- **Prometheus Compatible**: Standard metrics endpoint for integration with Prometheus/Grafana
+- **Multi-Architecture**: Support for amd64, aarch64, and armv7 systems
+
+## Architecture
+
+This repository follows a **source-to-monorepo** architecture:
+
+- **Source**: Here (`node-exporter/` directory) - Development and updates
+- **Target**: [Home Assistant Add-ons Suite](https://github.com/racksync/hass-addons-suite) - Distribution to users
+
+All changes made to the `node-exporter/` directory are automatically validated and synced to the monorepo via GitHub Actions.
 
 ## Installation
 
-1. Add the [RACKSYNC Add-ons Suite repository](https://github.com/racksync/hass-addons-suite). The URL is `https://github.com/racksync/hass-addons-suite`.
-1. Search for the "Prometheus Node Exporter" add-on in the Supervisor add-on store and install it.
-1. Disable "Protection mode" in the add-on panel.
-1. Optional - Check the `Configuration` tab of the add-on to make any changes you'd like.
-1. Start the add-on.
-1. Check the `Logs` tab of the add-on to see if everything went well.
-1. To verify the metrics are available, visit `http://your_home_assistant_ip_address:9100/metrics` in your browser, or use curl: `curl -X GET http://your_home_assistant_ip_address:9100/metrics`.
+This add-on is available through the **Home Assistant Add-ons Suite** repository:
+
+1. **Add Repository to Home Assistant**:
+   ```
+   https://github.com/racksync/hass-addons-suite
+   ```
+   Go to **Settings** → **Add-ons** → **Add-on Store** → ⋮ → **Add Repository**
+
+2. **Install Prometheus Node Exporter**:
+   - Find "Prometheus Node Exporter" in the store
+   - Click **INSTALL**
+   - Configure as needed (see Configuration section)
+   - **START** the add-on
 
 ## Configuration
 
-By default, Prometheus Node Exporter listens on TCP port 9100.
+### Basic Setup
 
-### HTTP Basic Authentication
-
-[HTTP Basic Auth](https://en.wikipedia.org/wiki/Basic_access_authentication) is disabled by default. If you want to enable HTTP Basic Auth:
-
-1. set `enable_basic_auth` to true
-1. enter the `basic_auth_user` and `basic_auth_pass`
-
-⚠️ Note that the `basic_auth_pass` needs to be a [bcrypt password hash](https://prometheus.io/docs/guides/basic-auth/)! ⚠️
-
-The default credentials are below ⚠️ PLEASE CHANGE THEM ⚠️:
-
-```
-Username            racksync
-Password (plain)    racksync
-Password (bcrypt)   $2a$12$gFHyQeG0f96Q6ZjIVqGJ.ebm1gCJp1oBjuBUgdL56.5Z61Fuqiccm
+```yaml
+# Default configuration - works out of the box
+log_level: "info"  # trace|debug|info|warn|error
+enable_basic_auth: false
+enable_tls: false
 ```
 
-### TLS
+### Advanced Configuration
 
-TLS is disabled by default. If you want to enable TLS:
+```yaml
+# Enable/disable specific collectors
+collectors:
+  cpu: true          # CPU usage and utilization
+  meminfo: true      # Memory statistics
+  diskstats: true    # Disk I/O statistics
+  netdev: true       # Network interface stats
+  netstat: true      # Network connection stats
+  filesystem: true   # Filesystem usage
+  loadavg: true      # System load average
+  time: true         # Current time metrics
+  wifi: false        # WiFi statistics (if applicable)
+  hwmon: true        # Hardware monitoring (temperature/fans)
 
-1. set `enable_tls` to true
-1. enter the `cert_file` and `cert_key`
+# Ignore specific mount points or network devices
+ignore_mount_points:
+  - "/tmp"
+  - "/run"
 
-⚠️ Note that the `cert_file` and `cert_key` need to be a `/path/to/fullchain.pem` and `/path/to/privkey.pem`, respectively (`/config` and `/ssl` are mapped to this add-on) ⚠️
+ignore_network_devices:
+  - "docker0"
+  - "veth*"
 
-### Command-line arguments
-
-This option allows you to pass command-line arguments directly to Prometheus Node Exporter. This is particularly useful to adjust which [collectors](https://github.com/prometheus/node_exporter/#collectors) run. For example, to disable all collectors except the `cpu` collector, you can use this string: `--collector.disable-defaults --collector.cpu`.
-
-## Usage (in Prometheus server)
-
-Add the following to the `/etc/prometheus/prometheus.yml` config file on your Prometheus server:
-
+# Custom command line arguments for node_exporter
+cmdline_extra_args: "--collector.disable-defaults --collector.cpu"
 ```
+
+### Security Options
+
+```yaml
+# Enable HTTP Basic Authentication
+enable_basic_auth: true
+basic_auth_user: "your_username"
+basic_auth_pass: "your_bcrypt_hash"
+
+# Enable TLS/HTTPS
+enable_tls: true
+cert_file: "/ssl/fullchain.pem"
+cert_key: "/ssl/privkey.pem"
+```
+
+## Metrics Endpoint
+
+Once running, the add-on exposes metrics at:
+
+- **HTTP**: `http://your-home-assistant:9100/metrics`
+- **HTTPS** (if TLS enabled): `https://your-home-assistant:9100/metrics`
+- **With Auth**: Include Basic Auth headers if enabled
+
+### Example Prometheus Configuration
+
+```yaml
 scrape_configs:
-  ...
-  ...
-  ...
-  - job_name: 'homeassistant'
+  - job_name: 'homeassistant-node-exporter'
     static_configs:
-    - targets: ['your_home_assistant_ip_address:9100']
+      - targets: ['your-home-assistant:9100']
+    metrics_path: '/metrics'
+    # Add authentication if enabled
+    basic_auth:
+      username: 'your_username'
+      password: 'your_password'
 ```
 
-The following Prometheus query should return data:
+## Development
+
+### Source Code Structure
 
 ```
-node_uname_info{job="homeassistant"}
+node-exporter/
+├── config.yaml          # Add-on configuration and schema
+├── build.yaml           # Build configuration
+├── Dockerfile           # Container image definition
+├── CHANGELOG.md         # Version history and release notes
+├── README.md           # This file
+├── icon.png           # Add-on icon
+├── logo.png           # Add-on logo
+├── rootfs/            # Container filesystem
+│   ├── etc/
+│   │   ├── cont-init.d/
+│   │   └── services.d/
+│   └── run.sh
+└── translations/
+    └── en.yaml        # English translations
 ```
 
-## Support
+### Making Changes
 
-- Tested on `amd64` and `aarch64` (Raspberry Pi 4B) platforms
+1. Edit files in the `node-exporter/` directory
+2. Test configuration changes locally
+3. Commit and push to this repository
+4. GitHub Actions will automatically validate and sync to the monorepo
+
+### Automated Sync Process
+
+- **Validation**: Configuration files are validated before sync
+- **Version Management**: Automatic tagging with version information
+- **Monorepo Update**: Files are synced to `racksync/hass-addons-suite`
+- **Release Creation**: Automatic release tag creation
+
+## Security Considerations
+
+- **AppArmor**: Enabled for container isolation
+- **Minimal Permissions**: Only requests necessary system access
+- **Principle of Least Privilege**: Reduces attack surface
+- **Authentication**: Optional Basic Auth and TLS support
+- **Network Access**: Host network access required for system metrics
+
+## Support & Contributing
+
+- **Issues**: [GitHub Issues](https://github.com/racksync/hass-addons-suite/issues) in the monorepo
+- **Discussions**: Community support and feature requests
+- **Contributions**: Pull requests welcome in this source repository
+
+## Version
+
+**Current Version**: `2025.11.1`
+**Release**: [View in Add-ons Suite](https://github.com/racksync/hass-addons-suite/releases/tag/node-exporter-v2025.11.1)
 
 ## License
 
-WIP
+This add-on follows the same licensing as the [Home Assistant Add-ons Suite](https://github.com/racksync/hass-addons-suite).
 
-## Known issues
+---
 
-- [ ] The "Open Web UI" button doesn't work when Home Assistant is behind a reverse proxy.
-- [x] Only tested on `amd64` builds.
+**Maintained by**: [RACKSYNC CO., LTD.](https://racksync.com) - ALL ABOUT AUTOMATION
+**Location**: Bangkok, Thailand
+**Email**: devops@racksync.com
+**Website**: [www.racksync.com](https://www.racksync.com)
+**X (Twitter)**: [@racksync](https://twitter.com/racksync)
+**Facebook**: [racksync](https://www.facebook.com/racksync)
 
-## TODO
 
-- [x] Add HTTP Basic Auth
-- [ ] Add ability to enter plain-text password instead of bcrypt-ed hash
-- [x] Add TLS
-- [x] Container images on GitHub registry for faster installation
-- [x] Investigate CI/CD for this repo, specifically [this](https://github.com/home-assistant/actions) and [this](https://github.com/hassio-addons/addon-glances/blob/main/.github/workflows/ci.yaml) as an example
-- [ ] Investigate dropping API access (e.g., `hassio_api`, `homeassistant_api`, `auth_api`) to improve security rating
 
-## FAQ
-
-- Doesn't Home Assistant already have Prometheus integration?
-  - Yes, but the [official integration](https://www.home-assistant.io/integrations/prometheus/) only exposes entity-related metrics, not host-related metrics.
-- Isn't there already an Prometheus add-on?
-  - Yes, but that [add-on](https://github.com/hassio-addons/addon-prometheus) is for Prometheus server, not the node exporter.
-- Why does this add-on require so many permissions?
-  - The add-on needs to access to host-level metrics (CPU, memory, disk, etc...). As such, I have requested all possible permissions. Please inspect the code of this add-on before you run it.
