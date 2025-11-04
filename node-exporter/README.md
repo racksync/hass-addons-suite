@@ -82,11 +82,11 @@ WIP
 ## TODO
 
 - [x] Add HTTP Basic Auth
-- [ ] Add abilty to enter plain-text password instead of bcyrpt-ed hash
+- [ ] Add ability to enter plain-text password instead of bcrypt-ed hash
 - [x] Add TLS
 - [x] Container images on GitHub registry for faster installation
 - [x] Investigate CI/CD for this repo, specifically [this](https://github.com/home-assistant/actions) and [this](https://github.com/hassio-addons/addon-glances/blob/main/.github/workflows/ci.yaml) as an example
-- [ ] Investigate dropping API access (e.g., `hassio_api`, `homeassistant_api`, `auth_api`) in order to get my rating up
+- [ ] Investigate dropping API access (e.g., `hassio_api`, `homeassistant_api`, `auth_api`) to improve security rating
 
 ## FAQ
 
