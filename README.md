@@ -27,6 +27,8 @@ Next, we recommend reading the README within each add-on. It's packed with step-
 
 - [**Multipoint Zigbee**](https://github.com/racksync/hass-addons-suite/tree/main/multipoint-zigbee) - Streamline your Zigbee network management. This add-on allows you to connect multiple Zigbee gateways, making it simpler than ever to onboard and manage a myriad of Zigbee devices.
 
+- [**Prometheus Node Exporter**](https://github.com/racksync/hass-addons-suite/tree/main/node-exporter) - Monitor your Home Assistant system's hardware and operating system metrics with Prometheus Node Exporter. This add-on provides detailed insights into CPU usage, memory consumption, disk space, network statistics, and other system-level metrics for comprehensive performance monitoring.
+
 
 ### Automation Training
 
