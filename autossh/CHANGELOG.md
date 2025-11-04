@@ -1,5 +1,29 @@
 ### CHANGELOG
 
+## 2025.1.0
+### Major Updates
+  - Upgrade Home Assistant base image to version 3.22
+  - Modernize configuration schema with new options
+  - Improve Dockerfile with security best practices
+  - Enhanced run.sh script with better error handling and logging
+### New Features
+  - Add local forwarding support (local_forwarding option)
+  - Configurable server alive interval and count max
+  - Custom monitoring port configuration
+  - Connection attempts configuration
+  - Multiple log levels (info, debug, error, warning)
+  - Configuration notes for personal reference
+### Security Improvements
+  - Use ED25519 SSH keys by default (fallback to RSA)
+  - Strict host key checking enabled
+  - Better known_hosts management
+  - Enhanced connection testing
+### UX Improvements
+  - Updated translations for all new options
+  - Better error messages and logging
+  - Configuration validation and testing
+  - More descriptive default values
+
 ## 2023.8.2
 ### Change
   - host_network: true

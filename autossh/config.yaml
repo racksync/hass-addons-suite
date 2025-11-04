@@ -1,8 +1,8 @@
-version: 2023.8.2
+version: 2025.1.0
 slug: racksync-autossh-tunnel
-name: AutoSSH Tunnel for Home Assistant
-description: SSH Tunnel for Home Assistant from RACKSYNC.COM
-url: https://github.com/racksync/hass-addons-suite/tree/main/autossh
+name: AutoSSH Tunnel
+description: Reliable SSH tunnel add-on for Home Assistant with automatic reconnection and monitoring
+url: https://github.com/racksync/hass-addons-autossh-tunnel
 codenotary: devops@racksync.com
 ingress: false
 init: false
@@ -18,24 +18,36 @@ boot: auto
 host_network: true
 apparmor: true
 host_pid: false
-homeassistant: 2023.8.1
+homeassistant: 2024.12.0
 advanced: true
 stage: stable
-options: 
-  hostname: 'destination-address'
+options:
+  hostname: null
   ssh_port: 22
-  username: 'autossh'
-  remote_forwarding: 
-    - 127.0.0.1:8081:127.0.0.1:8123
-  other_ssh_options: '-v'
+  username: autossh
+  remote_forwarding: []
+  local_forwarding: []
+  other_ssh_options: "-v"
   force_keygen: false
+  server_alive_interval: 30
+  server_alive_count_max: 3
+  monitoring_port: 20000
+  connection_attempts: 3
+  log_level: info
   note: ""
-schema: 
-  hostname: str
-  ssh_port: int
-  username: str
-  remote_forwarding: 
-    - str
-  other_ssh_options: str?
-  force_keygen: bool
-  note: str?
+schema:
+  hostname: "str?"
+  ssh_port: "int?"
+  username: "str?"
+  remote_forwarding:
+    - "str?"
+  local_forwarding:
+    - "str?"
+  other_ssh_options: "str?"
+  force_keygen: "bool?"
+  server_alive_interval: "int?"
+  server_alive_count_max: "int?"
+  monitoring_port: "int?"
+  connection_attempts: "int?"
+  log_level: "list(info|debug|error|warning)?"
+  note: "str?"

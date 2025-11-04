@@ -1,19 +1,40 @@
 configuration:
-  hostname: 
+  hostname:
     name: Destination Hostname/IP
-    description: 
-  ssh_port: 
-    name: SSH Port 
-    description: Default (22)
-  username: 
+    description: Remote server hostname or IP address
+  ssh_port:
+    name: SSH Port
+    description: SSH port on remote server (default: 22)
+  username:
     name: SSH Username
-    description: 
-  remote_forwarding: 
-    name: Forwarding Rules
-    description: Set forwarding rule as destination:origin
-  other_ssh_options: 
-    name: Other Option
-    description: As you wish
-  force_keygen: 
-    name: Force Keygen
-    description: 
+    description: Username for SSH authentication (default: autossh)
+  remote_forwarding:
+    name: Remote Forwarding Rules
+    description: Format: [bind_address:]port:host:hostport - Example: 127.0.0.1:8081:127.0.0.1:8123
+  local_forwarding:
+    name: Local Forwarding Rules
+    description: Format: [bind_address:]port:host:hostport - Forward local port to remote service
+  other_ssh_options:
+    name: Additional SSH Options
+    description: Extra options passed to SSH client (default: -v)
+  force_keygen:
+    name: Force SSH Key Regeneration
+    description: Generate new SSH key pair on next start
+  server_alive_interval:
+    name: Server Alive Interval
+    description: Seconds between server alive messages (default: 30)
+  server_alive_count_max:
+    name: Server Alive Count Max
+    description: Maximum server alive messages before disconnect (default: 3)
+  monitoring_port:
+    name: Monitoring Port
+    description: Port for autossh connection monitoring (default: 20000)
+  connection_attempts:
+    name: Connection Attempts
+    description: Number of connection attempts (default: 3)
+  log_level:
+    name: Log Level
+    description: Logging verbosity level (default: info)
+  note:
+    name: Configuration Note
+    description: Personal note for this configuration 
