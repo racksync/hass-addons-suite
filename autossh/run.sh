@@ -32,7 +32,7 @@ case "$LOG_LEVEL" in
     ;;
 esac
 
-bashio::log.info "Starting SSH Tunnel Services v2025.1.0"
+bashio::log.info "Starting SSH Tunnel Services v2025.11.1"
 bashio::log.info "Made with Love from Thailand, Bring to you by RACKSYNC 🇹🇭"
 
 # Display user note if provided

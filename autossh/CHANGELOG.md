@@ -1,5 +1,12 @@
 ### CHANGELOG
 
+## 2025.11.1
+### Improvements
+  - Update version to follow calendar versioning (CalVer)
+  - Modernize configuration with additional monitoring options
+  - Remove Slack bot dependencies from CI/CD pipeline
+  - Streamline GitHub Actions workflow for better maintainability
+
 ## 2025.1.0
 ### Major Updates
   - Upgrade Home Assistant base image to version 3.22

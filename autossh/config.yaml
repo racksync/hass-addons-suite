@@ -1,4 +1,4 @@
-version: 2025.1.0
+version: 2025.11.1
 slug: racksync-autossh-tunnel
 name: AutoSSH Tunnel
 description: Reliable SSH tunnel add-on for Home Assistant with automatic reconnection and monitoring
