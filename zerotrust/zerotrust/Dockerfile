@@ -4,7 +4,7 @@ FROM $BUILD_FROM
 SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 
 ARG BUILD_ARCH
-env BUILD_ARCH $BUILD_ARCH
+ENV BUILD_ARCH=$BUILD_ARCH
 
 RUN set -x \
     && if [ "${BUILD_ARCH}" = "armhf" ]; \
@@ -29,5 +29,5 @@ RUN set -x \
     && chmod 755 /usr/bin/cloudflared
 
 COPY rootfs /
-RUN chmod a+x -R /etc/
+RUN chmod a+x /etc/services.d/cloudflared/run /etc/services.d/cloudflared/finish
 WORKDIR /
