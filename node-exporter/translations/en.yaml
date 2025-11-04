@@ -1,4 +1,7 @@
 configuration:
+  log_level:
+    name: Log Level
+    description: Set the logging level for the add-on
   enable_basic_auth:
     name: Enable HTTP Basic Authentication
     description: Toggle on to enable HTTP basic authentication (i.e., password protection)
@@ -20,6 +23,45 @@ configuration:
   cmdline_extra_args:
     name: Command line extra arguments
     description: Extra arguments to pass to the "node_exporter" command at startup (see https://github.com/prometheus/node_exporter/#installation-and-usage for more information)
-  note:
-    name: Extra Note
-    description: Anything you want to note
+  collectors:
+    name: Metrics Collectors
+    description: Enable/disable specific metrics collectors
+  cpu:
+    name: CPU Metrics
+    description: Collect CPU usage and utilization metrics
+  meminfo:
+    name: Memory Metrics
+    description: Collect memory statistics
+  diskstats:
+    name: Disk I/O Metrics
+    description: Collect disk I/O statistics
+  netdev:
+    name: Network Device Metrics
+    description: Collect network interface statistics
+  netstat:
+    name: Network Statistics
+    description: Collect network connection statistics
+  filesystem:
+    name: Filesystem Metrics
+    description: Collect filesystem usage statistics
+  loadavg:
+    name: Load Average
+    description: Collect system load average
+  time:
+    name: Time Metrics
+    description: Collect current time metrics
+  wifi:
+    name: WiFi Metrics
+    description: Collect WiFi statistics (if available)
+  hwmon:
+    name: Hardware Monitoring
+    description: Collect hardware monitoring data (temperature, fans, etc.)
+  custom_collectors:
+    name: Custom Collectors
+    description: List of custom collectors to enable
+  ignore_mount_points:
+    name: Ignore Mount Points
+    description: List of mount points to ignore in filesystem metrics
+  ignore_network_devices:
+    name: Ignore Network Devices
+    description: List of network devices to ignore in network metrics

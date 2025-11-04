@@ -1,4 +1,4 @@
-# Node Exporter
+# Prometheus Node Exporter
 
 The Prometheus [Node Exporter](https://github.com/prometheus/node_exporter) for hardware and OS metrics exposed by \*NIX kernels.
 

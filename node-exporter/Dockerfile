@@ -13,7 +13,7 @@ SHELL ["/bin/bash", "-o", "pipefail", "-c"]
 # Declare build-time variables with an optional default value for NODE_EXPORTER_VERSION.
 ARG \
   BUILD_ARCH \
-  NODE_EXPORTER_VERSION="1.6.1"
+  NODE_EXPORTER_VERSION="1.8.2"
 
 # Copy the contents of the 'rootfs' directory from the build context into the root directory of the image.
 COPY rootfs /
