@@ -6,6 +6,10 @@
   - Modernize configuration with additional monitoring options
   - Remove Slack bot dependencies from CI/CD pipeline
   - Streamline GitHub Actions workflow for better maintainability
+### Fixes
+  - Fix Docker build by removing strict package version pinning
+  - Improve Docker layer efficiency by combining RUN commands
+  - Ensure compatibility with Alpine Linux 3.22 base image
 
 ### Major Updates
   - Upgrade Home Assistant base image to version 3.22

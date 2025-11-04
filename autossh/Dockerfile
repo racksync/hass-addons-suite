@@ -6,21 +6,17 @@ ENV LANG=C.UTF-8 \
     LC_ALL=C.UTF-8 \
     TZ=UTC
 
-# Install packages with proper version pinning and cleanup
+# Install packages and setup basic configuration
 RUN apk add --no-cache \
-    tzdata=2024b-r0 \
-    jq=1.7.1-r0 \
-    openssh-client=9.6_p1-r0 \
-    curl=8.10.1-r0 \
-    autossh=1.4g-r1 \
-    && apk cache clean
-
-# Create necessary directories
-RUN mkdir -p /data/.ssh \
-    && chmod 700 /data/.ssh
-
-# Set timezone to UTC by default (can be overridden)
-RUN ln -sf /usr/share/zoneinfo/UTC /etc/localtime
+    tzdata \
+    jq \
+    openssh-client \
+    curl \
+    autossh \
+    && apk cache clean \
+    && mkdir -p /data/.ssh \
+    && chmod 700 /data/.ssh \
+    && ln -sf /usr/share/zoneinfo/UTC /etc/localtime
 
 # Copy application files
 COPY rootfs/ /
