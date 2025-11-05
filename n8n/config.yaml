@@ -1,8 +1,8 @@
 name: n8n
-version: 2025.11.1
+version: 2025.11.0
 slug: hass-addons-n8n
 description: Run n8n instance on Home Assistant
-url: https://github.com/racksync/hass-addons-n8n/
+url: https://github.com/racksync/hass-addons-n8n/tree/main/n8n
 hassio_api: true
 hassio_role: default
 homeassistant: 2025.10.1

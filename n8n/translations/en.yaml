@@ -3,6 +3,27 @@ configuration:
   timezone:
     name: Timezone
     description: Timezone for n8n instance (e.g. Asia/Bangkok)
+  n8n_host:
+    name: n8n Host
+    description: Hostname for n8n service (default: homeassistant.local)
+  n8n_port:
+    name: n8n Port
+    description: Port for n8n service (default: 5678)
+  n8n_protocol:
+    name: n8n Protocol
+    description: Protocol for n8n (http or https)
+  webhook_url:
+    name: Webhook URL
+    description: External webhook URL (leave empty for auto-detection)
+  n8n_editor_base_url:
+    name: Editor Base URL
+    description: Base URL for n8n editor interface (leave empty for auto-detection)
+  n8n_path:
+    name: n8n Path
+    description: Path for n8n service (default: /)
+  n8n_metrics:
+    name: Enable Metrics
+    description: Enable metrics collection for n8n
   env_vars_list:
     name: Environment Variables
     description: List of .env variables in format KEY:VALUE (e.g., N8N_LOG_LEVEL:info)
