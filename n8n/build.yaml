@@ -16,12 +16,12 @@ build:
       io.hass.arch: "{arch}"
       io.hass.version: "{version}"
       org.opencontainers.image.title: "Home Assistant n8n Add-on"
-      org.opencontainers.image.description: "Run n8n instance on Home Assistant"
+      org.opencontainers.image.description: "n8n workflow automation with Home Assistant integration"
       org.opencontainers.image.vendor: "RACKSYNC CO., LTD."
       org.opencontainers.image.licenses: "Apache-2.0"
       org.opencontainers.image.url: "https://github.com/racksync/hass-addons-n8n"
       org.opencontainers.image.source: "https://github.com/racksync/hass-addons-n8n"
       org.opencontainers.image.documentation: "https://github.com/racksync/hass-addons-n8n/blob/main/README.md"
-    version: 2025.5.2
+    version: 2025.6.0
     slug: hass-addons-n8n
-    description: Run n8n instance on Home Assistant
+    description: n8n workflow automation with Home Assistant integration

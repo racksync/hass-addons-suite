@@ -3,7 +3,9 @@
 - remove `n8n-nightly` variant to focus on stable release only.
 - simplify workflow and remove dual-variant complexity.
 - streamline mono-repo structure to single `n8n/` directory.
-- update GitHub Actions workflow for single-variant deployment.
+- remove custom container building steps (let Home Assistant Supervisor handle builds).
+- use official n8n:stable as base image in build.yaml.
+- simplify GitHub Actions workflow to focus on file sync only.
 
 # Release 2025.5.3
 
