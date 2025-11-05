@@ -1,6 +1,6 @@
 FROM n8nio/n8n:stable
 
-ARG NGINX_ALLOWED_IP=172.30.32.2
+ARG NGINX_ALLOWED_IP=172.30.33.0/24
 ENV NGINX_ALLOWED_IP=${NGINX_ALLOWED_IP}
 
 USER root
@@ -23,8 +23,6 @@ COPY nginx.conf /etc/nginx/nginx.conf.template
 
 COPY entrypoint-n8n.sh /app/entrypoint-n8n.sh
 COPY entrypoint-nginx.sh /app/entrypoint-nginx.sh
-
-COPY nginx.conf /etc/nginx/nginx.conf
 COPY supervised.conf /etc/supervised.conf
 
 
