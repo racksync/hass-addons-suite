@@ -95,20 +95,14 @@ EXTERNAL_N8N_URL=${EXTERNAL_URL:-$(echo "$CONFIG" | jq -r ".external_url // \"$L
 EXTERNAL_HA_HOSTNAME=$(echo "$EXTERNAL_N8N_URL" | sed -e "s/https\?:\/\///" | cut -d':' -f1)
 echo "External Home Assistant n8n URL: ${EXTERNAL_N8N_URL}"
 
-# Simple configuration for direct n8n access through ingress
-export N8N_PATH="/"
-export N8N_HOST="0.0.0.0"
+# MINIMAL CONFIGURATION - let n8n handle everything
+export N8N_HOST=0.0.0.0
 export N8N_PORT=5678
 
-# For HA ingress, let n8n auto-detect from headers
-unset N8N_EDITOR_BASE_URL
-
-echo "=== SIMPLIFIED CONFIGURATION ==="
-echo "Running n8n directly on port 5678"
-echo "N8N_HOST: $N8N_HOST"
-echo "N8N_PORT: $N8N_PORT"
-echo "N8N_PATH: $N8N_PATH"
-echo "Ingress will connect directly to n8n"
+echo "=== MINIMAL N8N SETUP ==="
+echo "HOST: $N8N_HOST"
+echo "PORT: $N8N_PORT"
+echo "No other configuration - let n8n handle ingress"
 export WEBHOOK_URL=${WEBHOOK_URL:-"http://${LOCAL_HA_HOSTNAME}:7123"}
 
 echo "N8N_PATH: ${N8N_PATH}"
