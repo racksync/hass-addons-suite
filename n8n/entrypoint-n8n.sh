@@ -106,13 +106,25 @@ echo "Using user-provided configuration from add-on interface"
 export DB_SQLITE_POOL_SIZE=10
 export N8N_BLOCK_ENV_ACCESS_IN_NODE=false
 export N8N_GIT_NODE_DISABLE_BARE_REPOS=true
+
+# Express proxy configuration - try multiple approaches
 export N8N_TRUST_PROXY=true
+export NODE_ENV=production
+export EXPRESS_TRUST_PROXY=172.30.32.0/24  # HA ingress IP range
+
+# Additional fixes for Home Assistant compatibility
+export NODE_TLS_REJECT_UNAUTHORIZED=0
+export N8N_SKIP_WEBHOOK_DEREGISTRATION_CHECK=true
 
 echo "Applied n8n fixes:"
 echo "  DB_SQLITE_POOL_SIZE=$DB_SQLITE_POOL_SIZE"
 echo "  N8N_BLOCK_ENV_ACCESS_IN_NODE=$N8N_BLOCK_ENV_ACCESS_IN_NODE"
 echo "  N8N_GIT_NODE_DISABLE_BARE_REPOS=$N8N_GIT_NODE_DISABLE_BARE_REPOS"
-echo "  N8N_TRUST_PROXY=$N8N_TRUST_PROXY (fixes X-Forwarded-For errors)"
+echo "  N8N_TRUST_PROXY=$N8N_TRUST_PROXY"
+echo "  NODE_ENV=$NODE_ENV"
+echo "  EXPRESS_TRUST_PROXY=$EXPRESS_TRUST_PROXY (Express-specific)"
+echo "  NODE_TLS_REJECT_UNAUTHORIZED=$NODE_TLS_REJECT_UNAUTHORIZED"
+echo "  N8N_SKIP_WEBHOOK_DEREGISTRATION_CHECK=$N8N_SKIP_WEBHOOK_DEREGISTRATION_CHECK"
 export WEBHOOK_URL=${WEBHOOK_URL:-"http://${LOCAL_HA_HOSTNAME}:7123"}
 
 echo "N8N_PATH: ${N8N_PATH}"
