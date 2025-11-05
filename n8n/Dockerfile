@@ -10,5 +10,6 @@ RUN apk add --no-cache --update \
 
 WORKDIR /data
 COPY entrypoint-n8n.sh /app/entrypoint-n8n.sh
+RUN chmod +x /app/entrypoint-n8n.sh
 
 ENTRYPOINT ["/app/entrypoint-n8n.sh"]
