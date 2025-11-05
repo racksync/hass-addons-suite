@@ -17,3 +17,9 @@ configuration:
   no_autoupdate:
     name: "ปิดการอัปเดตอัตโนมัติ"
     description: "ปิดการอัปเดต cloudflared binary อัตโนมัติ"
+  metrics_enabled:
+    name: "เปิดใช้งาน Metrics"
+    description: "เปิด endpoint ของ tunnel metrics สำหรับการ monitoring และ debug"
+  metrics_port:
+    name: "พอร์ต Metrics"
+    description: "หมายเลขพอร์ตสำหรับ metrics endpoint (เข้าถึงได้โดยตรงผ่านเครือข่าย)"

@@ -1,7 +1,7 @@
-version: 2025.11.2
+version: 2025.12.1
 slug: racksync-cloudflare-tunnel-zerotrust
 name: "Cloudflare Tunnel Zero Trust"
-description: "Cloudflare Tunnel from RACKSYNC.COM"
+description: "Cloudflare Tunnel from RACKSYNC.COM with metrics support"
 url: https://github.com/racksync/hass-addons-suite/tree/main/zerotrust/
 codenotary: devops@racksync.com
 ingress: false
@@ -19,7 +19,7 @@ boot: auto
 host_network: true
 apparmor: true
 host_pid: false
-homeassistant: 2025.10.4
+homeassistant: 2025.12.1
 advanced: true
 stage: stable
 options:
@@ -28,9 +28,13 @@ options:
   config: false
   protocol: "quic"
   no_autoupdate: false
+  metrics_enabled: false
+  metrics_port: 2025
 schema:
   token: str?
   desc: str?
   config: bool?
   protocol: list(http2|quic)?
   no_autoupdate: bool
+  metrics_enabled: bool?
+  metrics_port: int?

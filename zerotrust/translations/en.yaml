@@ -17,3 +17,9 @@ configuration:
   no_autoupdate:
     name: "Disable Auto Update"
     description: "Disable automatic cloudflared binary updates"
+  metrics_enabled:
+    name: "Enable Metrics"
+    description: "Expose tunnel metrics endpoint for monitoring and debugging"
+  metrics_port:
+    name: "Metrics Port"
+    description: "Port number for the metrics endpoint (accessible via Home Assistant ingress)"

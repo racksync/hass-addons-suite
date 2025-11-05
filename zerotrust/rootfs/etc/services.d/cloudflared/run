@@ -2,10 +2,34 @@
 
 TOKEN=$(bashio::config 'token')
 PROTOCOL=$(bashio::config 'protocol')
+METRICS_ENABLED=$(bashio::config 'metrics_enabled')
+METRICS_PORT=$(bashio::config 'metrics_port')
 
 bashio::log.info "Starting Cloudflare Tunnel Services"
 bashio::log.info "Made with Love from Thailand, Bring to you by RACKSYNC 🇹🇭"
 bashio::log.info "Using protocol: $PROTOCOL"
+
+if bashio::config.true 'metrics_enabled'; then
+    bashio::log.info "Metrics enabled - configuring cloudflared to expose metrics on 0.0.0.0:$METRICS_PORT"
+    METRICS_FLAG="--metrics 0.0.0.0:$METRICS_PORT"
+    bashio::log.info "Cloudflared will bind metrics to all interfaces on port $METRICS_PORT"
+else
+    bashio::log.info "Metrics disabled - cloudflared will use default metrics (localhost only)"
+    METRICS_FLAG=""
+fi
+
+# Test metrics connectivity if enabled
+if bashio::config.true 'metrics_enabled'; then
+    # Wait a moment for cloudflared to start with metrics
+    (sleep 5 &&
+    if command -v curl >/dev/null 2>&1; then
+        if curl -s --max-time 3 "http://0.0.0.0:$METRICS_PORT/metrics" >/dev/null 2>&1; then
+            bashio::log.info "✓ Cloudflared metrics successfully accessible on port $METRICS_PORT"
+        else
+            bashio::log.warning "⚠ Cloudflared metrics not yet accessible on port $METRICS_PORT (may still be starting)"
+        fi
+    fi) &
+fi
 
 mkdir -p /root/.cloudflared/
 
@@ -21,8 +45,8 @@ PROTOCOL_FLAG="--protocol $PROTOCOL"
 if bashio::config.true 'config'; then
     bashio::log.info "Fetching tunnel data from config.yaml 🔧"
     exec cp -Rv /ssl/config.yaml /root/.cloudflared/
-    exec cloudflared tunnel $PROTOCOL_FLAG $NOUPDATE --config /root/.cloudflared/config.yaml run
+    exec cloudflared tunnel $PROTOCOL_FLAG $NOUPDATE $METRICS_FLAG --config /root/.cloudflared/config.yaml run
 else
     bashio::log.info "Fetching tunnel data from Token! 🔑"
-    exec cloudflared tunnel $PROTOCOL_FLAG $NOUPDATE run --token $TOKEN
+    exec cloudflared tunnel $PROTOCOL_FLAG $NOUPDATE $METRICS_FLAG run --token $TOKEN
 fi

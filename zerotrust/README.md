@@ -36,6 +36,7 @@ This Home Assistant add-on provides Cloudflare Zero Trust Tunnel functionality, 
 3. Create a tunnel from your [Cloudflare Zero Trust Dashboard](https://dash.teams.cloudflare.com/)
 
 4. Configure the add-on with your tunnel token and restart
+5. **Optional**: Enable metrics monitoring for tunnel performance insights
 
 ### Configuration Options
 
@@ -48,6 +49,9 @@ This Home Assistant add-on provides Cloudflare Zero Trust Tunnel functionality, 
 
 - ✅ **Zero Trust Security**: Leverages Cloudflare's security features
 - ✅ **Protocol Support**: QUIC and HTTP/2 for optimal performance
+- ✅ **Native Cloudflared Metrics**: Real tunnel metrics from Cloudflare's built-in monitoring
+- ✅ **Direct Port Access**: Access metrics directly on port 2025 (no ingress complexity)
+- ✅ **Prometheus Format**: Native Prometheus-compatible metrics for monitoring tools
 - ✅ **Universal Architecture**: Supports all Home Assistant hardware
 - ✅ **Easy Setup**: Token-based configuration for beginners
 - ✅ **Advanced Configuration**: Custom config file support for power users

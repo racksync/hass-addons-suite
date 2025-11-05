@@ -10,6 +10,7 @@
 6. [Troubleshooting](#troubleshooting)
 7. [Security Considerations](#security-considerations)
 8. [Advanced Features](#advanced-features)
+9. [Tunnel Metrics Monitoring](#tunnel-metrics-monitoring)
 
 ## Installation
 
@@ -283,6 +284,82 @@ ingress:
       connectTimeout: 30s
       tcpKeepAlive: 30s
 ```
+
+### Tunnel Metrics Monitoring
+
+This add-on supports exposing tunnel metrics for monitoring and debugging purposes.
+
+#### Enabling Metrics
+
+1. Go to the add-on **Configuration** tab
+2. Set **Enable Metrics** to `true`
+3. Configure **Metrics Port** (default: 2025)
+4. Save and restart the add-on
+
+#### Accessing Metrics
+
+Once enabled, metrics can be accessed directly on the configured port:
+
+```
+http://homeassistant.local:2025/metrics
+```
+
+Replace `2025` with your configured metrics port if different from default.
+
+**Note**: These are cloudflared's native built-in metrics, providing real-time tunnel performance data directly from Cloudflare's tunnel service. The add-on configures cloudflared to expose these metrics on all network interfaces (0.0.0.0) instead of just localhost, making them accessible through the host network.
+
+#### Technical Implementation
+
+This add-on uses cloudflared's native `--metrics` flag to expose the built-in metrics server:
+
+- **Default Behavior**: cloudflared only exposes metrics on localhost (127.0.0.1)
+- **Our Configuration**: `--metrics 0.0.0.0:2025` binds to all network interfaces
+- **Network Access**: Uses `host_network: true` for direct port access
+- **Format**: Native Prometheus-compatible metrics format
+- **Reliability**: No additional services - just cloudflared's own metrics server
+
+This approach provides the most reliable and comprehensive tunnel monitoring without any additional overhead.
+
+#### Available Metrics
+
+The cloudflared metrics endpoint provides comprehensive Prometheus-style metrics including:
+
+- **Tunnel Connections**: Active tunnel connections and their status
+- **Request Metrics**: HTTP request counts, response times, error rates
+- **Bandwidth Usage**: Data transfer statistics (bytes in/out)
+- **Connection Events**: Tunnel establishment, reconnections, failures
+- **Protocol Information**: QUIC/HTTP2 connection details
+- **Location Data**: Edge server locations and performance
+- **Latency Measurements**: Real-time latency and throughput data
+
+#### Integration with Monitoring Tools
+
+The metrics endpoint can be integrated with external monitoring tools:
+
+- **Prometheus**: Add as scrape target:
+  ```
+  http://homeassistant.local:2025/metrics
+  ```
+- **Grafana**: Create dashboards using the metrics endpoint
+- **Home Assistant Monitor**: Use REST sensor with direct URL
+
+Example Home Assistant configuration:
+
+```yaml
+sensor:
+  - platform: rest
+    resource: http://homeassistant.local:2025/metrics
+    name: Cloudflare Tunnel Metrics
+    value_template: "{{ value.split(' ')[1] if '#' not in value else '0' }}"
+    json_attributes:
+      - tunnel_connections
+      - response_time
+      - bytes_transferred
+```
+
+**Note**: cloudflared metrics are in Prometheus format (text-based), not JSON. You may need to parse the text format for specific metrics.
+
+**Note**: Direct access provides the most reliable and straightforward integration with monitoring tools, as it doesn't rely on Home Assistant's ingress system.
 
 ## Additional Resources
 

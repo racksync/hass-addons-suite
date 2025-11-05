@@ -1,5 +1,24 @@
 ### CHANGELOG
 
+## 2025.12.1
+### Feature
+  - **NEW**: Native Cloudflared tunnel metrics monitoring
+  - Add configurable native metrics exposure using cloudflared's `--metrics` flag
+  - Support for custom metrics port configuration (default: 2025)
+  - Direct port access to cloudflared's built-in metrics endpoint
+  - Binds metrics to all network interfaces (0.0.0.0) for external access
+  - Native Prometheus-format metrics from Cloudflare's tunnel service
+  - Perfect integration with Prometheus, Grafana, and monitoring tools
+### Enhancement
+  - Update minimum Home Assistant version to 2025.12.1
+  - Improve tunnel performance visibility and debugging capabilities
+  - Add comprehensive metrics documentation and usage examples
+  - Simplified architecture using cloudflared's native metrics server
+  - No additional services required - zero overhead metrics exposure
+### Localization
+  - Add English and Thai translations for metrics configuration options
+  - Update documentation with metrics monitoring setup guide
+
 ## 2025.11.2
 ### Consolidation
   - Merge zerotrust and zerotrust-pi into single universal addon
