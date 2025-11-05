@@ -9,7 +9,17 @@ export N8N_ENFORCE_SETTINGS_FILE_PERMISSIONS=true
 
 CONFIG_PATH="/data/options.json"
 export GENERIC_TIMEZONE="$(jq --raw-output '.timezone // empty' $CONFIG_PATH)"
-export N8N_PROTOCOL="$(jq --raw-output '.protocol // empty' $CONFIG_PATH)"
+
+# NEW: Extract new environment variables from options
+export N8N_HOST="$(jq --raw-output '.n8n_host // "homeassistant.local"' $CONFIG_PATH)"
+export N8N_PORT="$(jq --raw-output '.n8n_port // 5678' $CONFIG_PATH)"
+export N8N_PROTOCOL="$(jq --raw-output '.n8n_protocol // "http"' $CONFIG_PATH)"
+export WEBHOOK_URL="$(jq --raw-output '.webhook_url // empty' $CONFIG_PATH)"
+export N8N_EDITOR_BASE_URL="$(jq --raw-output '.n8n_editor_base_url // empty' $CONFIG_PATH)"
+export N8N_PATH="$(jq --raw-output '.n8n_path // "/"' $CONFIG_PATH)"
+export N8N_METRICS="$(jq --raw-output '.n8n_metrics // "false"' $CONFIG_PATH)"
+
+# LEGACY: Extract legacy protocol and SSL settings
 export N8N_SSL_CERT="/ssl/$(jq --raw-output '.certfile // empty' $CONFIG_PATH)"
 export N8N_SSL_KEY="/ssl/$(jq --raw-output '.keyfile // empty' $CONFIG_PATH)"
 export N8N_CMD_LINE="$(jq --raw-output '.cmd_line_args // empty' $CONFIG_PATH)"

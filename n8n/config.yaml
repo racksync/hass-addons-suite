@@ -1,11 +1,11 @@
 name: n8n
-version: 2025.6.0
+version: 2025.11.1
 slug: hass-addons-n8n
 description: Run n8n instance on Home Assistant
-url: https://github.com/racksync/hass-addons-n8n
+url: https://github.com/racksync/hass-addons-suite/tree/main/n8n/
 hassio_api: true
 hassio_role: default
-homeassistant: 2025.4.4
+homeassistant: 2025.10.1
 panel_icon: mdi:transit-connection-variant
 advanced: true
 homeassistant_api: true
@@ -38,10 +38,26 @@ ports_description:
   "7123/tcp": For webhook and API-related traffic.
 options:
   timezone: Asia/Bangkok
+  n8n_host: homeassistant.local
+  n8n_port: 5678
+  n8n_protocol: http
+  webhook_url: ""
+  n8n_editor_base_url: ""
+  n8n_path: /
+  n8n_metrics: false
   env_vars_list: []
   cmd_line_args: ""
 schema:
   timezone: str
+  n8n_host: str
+  n8n_port: int
+  n8n_protocol:
+    - "http"
+    - "https"
+  webhook_url: str
+  n8n_editor_base_url: str
+  n8n_path: str
+  n8n_metrics: bool
   env_vars_list:
     - "match(^[A-Z_0-9.]+: .*$)"
   cmd_line_args: "str?" 
