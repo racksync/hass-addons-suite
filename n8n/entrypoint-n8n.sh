@@ -106,13 +106,13 @@ echo "Using user-provided configuration from add-on interface"
 export DB_SQLITE_POOL_SIZE=10
 export N8N_BLOCK_ENV_ACCESS_IN_NODE=false
 export N8N_GIT_NODE_DISABLE_BARE_REPOS=true
-export N8N_TRUST_PROXY_HEADER_IP=true
+export N8N_PROXY_HOPS=1
 
 echo "Applied n8n fixes:"
 echo "  DB_SQLITE_POOL_SIZE=$DB_SQLITE_POOL_SIZE"
 echo "  N8N_BLOCK_ENV_ACCESS_IN_NODE=$N8N_BLOCK_ENV_ACCESS_IN_NODE"
 echo "  N8N_GIT_NODE_DISABLE_BARE_REPOS=$N8N_GIT_NODE_DISABLE_BARE_REPOS"
-echo "  N8N_TRUST_PROXY_HEADER_IP=$N8N_TRUST_PROXY_HEADER_IP (fixes X-Forwarded-For errors)"
+echo "  N8N_PROXY_HOPS=$N8N_PROXY_HOPS (fixes X-Forwarded-For errors)"
 export WEBHOOK_URL=${WEBHOOK_URL:-"http://${LOCAL_HA_HOSTNAME}:7123"}
 
 echo "N8N_PATH: ${N8N_PATH}"
