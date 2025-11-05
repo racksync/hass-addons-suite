@@ -1,0 +1,27 @@
+build:
+  - api: 1.0.0
+    name: hass-addons-n8n
+    args:
+      - NGINX_ALLOWED_IP=all
+    image: ghcr.io/racksync/hass-addons-n8n-{arch}
+    repository: ghcr.io/racksync/hass-addons-n8n
+    build_from:
+      amd64: n8nio/n8n:stable
+      armhf: n8nio/n8n:stable
+      armv7: n8nio/n8n:stable
+      aarch64: n8nio/n8n:stable
+      i386: n8nio/n8n:stable
+    labels:
+      io.hass.type: addon
+      io.hass.arch: "{arch}"
+      io.hass.version: "{version}"
+      org.opencontainers.image.title: "Home Assistant n8n Add-on"
+      org.opencontainers.image.description: "Run n8n instance on Home Assistant"
+      org.opencontainers.image.vendor: "RACKSYNC CO., LTD."
+      org.opencontainers.image.licenses: "Apache-2.0"
+      org.opencontainers.image.url: "https://github.com/racksync/hass-addons-n8n"
+      org.opencontainers.image.source: "https://github.com/racksync/hass-addons-n8n"
+      org.opencontainers.image.documentation: "https://github.com/racksync/hass-addons-n8n/blob/main/README.md"
+    version: 2025.5.2
+    slug: hass-addons-n8n
+    description: Run n8n instance on Home Assistant
