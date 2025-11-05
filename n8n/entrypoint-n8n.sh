@@ -95,24 +95,23 @@ EXTERNAL_N8N_URL=${EXTERNAL_URL:-$(echo "$CONFIG" | jq -r ".external_url // \"$L
 EXTERNAL_HA_HOSTNAME=$(echo "$EXTERNAL_N8N_URL" | sed -e "s/https\?:\/\///" | cut -d':' -f1)
 echo "External Home Assistant n8n URL: ${EXTERNAL_N8N_URL}"
 
-# Configure n8n for reverse proxy (ingress) compatibility
+# Configure n8n for Home Assistant ingress
+# Use simple path-based configuration that works with HA ingress
 export N8N_PATH="/"
 
-# Set base URL to work through Home Assistant ingress
-# Use the ingress entry URL but construct it for internal use
-if [ -n "$INGRESS_ENTRY" ]; then
-    export N8N_EDITOR_BASE_URL="$INGRESS_ENTRY"
-else
-    export N8N_EDITOR_BASE_URL="/"
-fi
+# For HA ingress, we need to set the base URL to the external URL
+# This allows n8n to generate correct URLs for external access
+export N8N_EDITOR_BASE_URL="$EXTERNAL_N8N_URL"
 
-# Configure n8n to work behind reverse proxy
-export N8N_PROXY_TRUST_HEADER="x-forwarded-for"
-export N8N_PROXY_HOST="localhost"
-export N8N_PROXY_PORT=8765
+echo "Configured for HA ingress: N8N_PATH=$N8N_PATH, N8N_EDITOR_BASE_URL=$N8N_EDITOR_BASE_URL"
 
-echo "Configured for reverse proxy: N8N_PATH=$N8N_PATH, N8N_EDITOR_BASE_URL=$N8N_EDITOR_BASE_URL"
-echo "Proxy settings: N8N_PROXY_HOST=$N8N_PROXY_HOST, N8N_PROXY_PORT=$N8N_PROXY_PORT"
+# Test if nginx is accessible from within the container
+echo "Testing nginx connectivity..."
+curl -s -o /dev/null -w "%{http_code}" http://localhost:8765/ || echo "Nginx not accessible on port 8765"
+
+# Test if n8n is accessible directly
+echo "Testing n8n connectivity..."
+curl -s -o /dev/null -w "%{http_code}" http://localhost:5678/ || echo "n8n not accessible on port 5678"
 export WEBHOOK_URL=${WEBHOOK_URL:-"http://${LOCAL_HA_HOSTNAME}:7123"}
 
 echo "N8N_PATH: ${N8N_PATH}"
