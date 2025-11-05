@@ -95,35 +95,20 @@ EXTERNAL_N8N_URL=${EXTERNAL_URL:-$(echo "$CONFIG" | jq -r ".external_url // \"$L
 EXTERNAL_HA_HOSTNAME=$(echo "$EXTERNAL_N8N_URL" | sed -e "s/https\?:\/\///" | cut -d':' -f1)
 echo "External Home Assistant n8n URL: ${EXTERNAL_N8N_URL}"
 
-# Configure n8n for Home Assistant ingress
+# Simple configuration for direct n8n access through ingress
 export N8N_PATH="/"
+export N8N_HOST="0.0.0.0"
+export N8N_PORT=5678
 
-# For HA ingress, disable the base URL to let n8n auto-detect
-# This is critical for making n8n work properly through HA ingress
+# For HA ingress, let n8n auto-detect from headers
 unset N8N_EDITOR_BASE_URL
 
-echo "=== INGRESS DEBUGGING ==="
-echo "External URL: $EXTERNAL_N8N_URL"
-echo "Ingress Path: $INGRESS_PATH"
-echo "Ingress Entry: $INGRESS_ENTRY"
+echo "=== SIMPLIFIED CONFIGURATION ==="
+echo "Running n8n directly on port 5678"
+echo "N8N_HOST: $N8N_HOST"
+echo "N8N_PORT: $N8N_PORT"
 echo "N8N_PATH: $N8N_PATH"
-echo "N8N_EDITOR_BASE_URL: ${N8N_EDITOR_BASE_URL:-<not set>}"
-
-# Test connectivity
-echo "=== CONNECTIVITY TESTS ==="
-echo "Testing nginx on port 8765..."
-timeout 5 curl -s http://localhost:8765/ > /dev/null && echo "✅ nginx accessible" || echo "❌ nginx not accessible"
-
-echo "Testing n8n on port 5678..."
-timeout 5 curl -s http://localhost:5678/ > /dev/null && echo "✅ n8n accessible" || echo "❌ n8n not accessible"
-
-echo "Testing nginx -> n8n proxy..."
-timeout 5 curl -s -H "Host: test" http://localhost:8765/ > /dev/null && echo "✅ nginx proxy working" || echo "❌ nginx proxy not working"
-
-# Show what nginx should be serving
-echo "=== NGINX CONFIGURATION ==="
-echo "nginx listening on: 8765"
-echo "nginx forwarding to: localhost:5678"
+echo "Ingress will connect directly to n8n"
 export WEBHOOK_URL=${WEBHOOK_URL:-"http://${LOCAL_HA_HOSTNAME}:7123"}
 
 echo "N8N_PATH: ${N8N_PATH}"

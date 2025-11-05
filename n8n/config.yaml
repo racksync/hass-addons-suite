@@ -20,16 +20,16 @@ startup: application
 boot: auto
 icon: icon.png
 logo: icon.png
-webui: "http://[HOST]:[PORT:8765]"
+webui: "http://[HOST]:[PORT:5678]"
 map:
   - ssl:ro
   - backup:ro
   - share:ro
   - media:rw
   - config:ro
-watchdog: "http://[HOST]:[PORT:8765]"
+watchdog: "http://[HOST]:[PORT:5678]"
 ingress: true
-ingress_port: 8765
+ingress_port: 5678
 ports:
   "5678/tcp": null
   "7123/tcp": 7123
@@ -43,19 +43,19 @@ options:
   n8n_protocol: http
   webhook_url: ""
   n8n_editor_base_url: ""
-  n8n_path: /
+  n8n_path: ""
   n8n_metrics: false
   env_vars_list: []
   cmd_line_args: ""
 schema:
   timezone: str
-  n8n_host: str
+  n8n_host: str?
   n8n_port: int
-  n8n_protocol: "str?(http|https)"
-  webhook_url: str
-  n8n_editor_base_url: str
-  n8n_path: str
-  n8n_metrics: bool
+  n8n_protocol: list(http|https)
+  webhook_url: str?
+  n8n_editor_base_url: str?
+  n8n_path: str?
+  n8n_metrics: bool?
   env_vars_list:
-    - "match(^[A-Z_0-9.]+: .*$)"
-  cmd_line_args: "str?" 
+    - "match(^[A-Z_0-9.]+: .*$)?"
+  cmd_line_args: str?
