@@ -101,6 +101,16 @@ echo "N8N_HOST: $N8N_HOST (from n8n_host in config)"
 echo "N8N_PORT: $N8N_PORT (from n8n_port in config)"
 echo "N8N_PROTOCOL: $N8N_PROTOCOL (from n8n_protocol in config)"
 echo "Using user-provided configuration from add-on interface"
+
+# Fix n8n deprecation warnings
+export DB_SQLITE_POOL_SIZE=10
+export N8N_BLOCK_ENV_ACCESS_IN_NODE=false
+export N8N_GIT_NODE_DISABLE_BARE_REPOS=true
+
+echo "Applied n8n deprecation fixes:"
+echo "  DB_SQLITE_POOL_SIZE=$DB_SQLITE_POOL_SIZE"
+echo "  N8N_BLOCK_ENV_ACCESS_IN_NODE=$N8N_BLOCK_ENV_ACCESS_IN_NODE"
+echo "  N8N_GIT_NODE_DISABLE_BARE_REPOS=$N8N_GIT_NODE_DISABLE_BARE_REPOS"
 export WEBHOOK_URL=${WEBHOOK_URL:-"http://${LOCAL_HA_HOSTNAME}:7123"}
 
 echo "N8N_PATH: ${N8N_PATH}"
