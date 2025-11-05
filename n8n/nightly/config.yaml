@@ -1,0 +1,47 @@
+name: n8n nightly
+version: 2025.5.2
+slug: hass-addons-n8n-nightly
+description: Cutting edge run n8n nightly build on Home Assistant
+url: https://github.com/racksync/hass-addons-n8n
+hassio_api: true
+hassio_role: default
+homeassistant: 2025.4.4
+panel_icon: mdi:transit-connection-variant
+advanced: true
+homeassistant_api: true
+apparmor: true
+arch:
+  - armhf
+  - armv7
+  - aarch64
+  - amd64
+  - i386
+startup: application
+boot: auto
+icon: icon.png
+logo: icon.png
+webui: "http://[HOST]:[PORT:8765]"
+map:
+  - ssl:ro
+  - backup:ro
+  - share:ro
+  - media:rw
+  - config:ro
+watchdog: "http://[HOST]:[PORT:8765]"
+ingress: true
+ingress_port: 8765
+ports:
+  "5678/tcp": 5678
+  "7123/tcp": 7123
+ports_description:
+  "5678/tcp": The port for all n8n traffic. Not exposed by default, 
+  "7123/tcp": For webhook and API-related traffic.
+options:
+  timezone: Asia/Bangkok
+  env_vars_list: []
+  cmd_line_args: ""
+schema:
+  timezone: str
+  env_vars_list:
+    - "match(^[A-Z_0-9.]+: .*$)"
+  cmd_line_args: "str?" 
