@@ -1,14 +1,35 @@
 ---
 configuration:
   timezone:
-    name: Timezone
-    description: ไทม์โซนสำหรับ n8n (เช่น Asia/Bangkok)
+    name: เขตเวลา
+    description: โซนเวลาสำหรับอินสแตนซ์ n8n (เช่น Asia/Bangkok)
+  n8n_host:
+    name: โฮสต์ n8n
+    description: ชื่อโฮสต์สำหรับบริการ n8n (ค่าเริ่มต้น: homeassistant.local)
+  n8n_port:
+    name: พอร์ต n8n
+    description: พอร์ตสำหรับบริการ n8n (ค่าเริ่มต้น: 5678)
+  n8n_protocol:
+    name: โปรโตคอล n8n
+    description: โปรโตคอลสำหรับ n8n (http หรือ https)
+  webhook_url:
+    name: URL Webhook
+    description: URL webhook ภายนอก (ปล่อยว่างสำหรับตรวจจับอัตโนมัติ)
+  n8n_editor_base_url:
+    name: URL ฐานของเอดิเตอร์
+    description: URL ฐานสำหรับอินเทอร์เฟซเอดิเตอร์ n8n (ปล่อยว่างสำหรับตรวจจับอัตโนมัติ)
+  n8n_path:
+    name: เส้นทาง n8n
+    description: เส้นทางสำหรับบริการ n8n (ค่าเริ่มต้น: /)
+  n8n_metrics:
+    name: เปิดใช้งานการวัดผล
+    description: เปิดใช้งานการรวบรวมข้อมูลการวัดผลสำหรับ n8n
   env_vars_list:
-    name: Environment Variables
-    description: รายการตัวแปร .env รูปแบบ KEY:VALUE (เช่น N8N_LOG_LEVEL:info)
+    name: ตัวแปรสภาพแวดล้อม
+    description: รายการตัวแปร .env ในรูปแบบ KEY:VALUE (เช่น N8N_LOG_LEVEL:info)
   cmd_line_args:
-    name: Additional Command Arguments
-    description: flag คำสั่งเพิ่มเติมตอนรัน n8n
+    name: อาร์กิวเมนต์บรรทัดคำสั่ง
+    description: อาร์กิวเมนต์บรรทัดคำสั่งเพิ่มเติมที่จะส่งให้ n8n ขณะเริ่มต้น (ไม่จำเป็น)
 
 network:
   5678/tcp: พอร์ตซิ่ง (ก่อนเปิดขอให้เข้าใจว่ากำลังทำอะไรอยู่) สำหรับการรับส่งข้อมูล n8n ทั้งหมด โดยปกติจะไม่เปิดเผย เนื่องจาก Home Assistant Ingress มีความปลอดภัยมากกว่า คุณอาจเปิดพอร์ตนี้หากต้องการข้ามการใช้ Ingress 
