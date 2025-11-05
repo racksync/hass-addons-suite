@@ -50,7 +50,7 @@ options:
   db_sqlite_pool_size: 10
   n8n_block_env_access_in_node: false
   n8n_git_node_disable_bare_repos: true
-  n8n_proxy_hops: 1
+  n8n_trust_proxy: true
 schema:
   timezone: str
   n8n_host: str?
@@ -65,7 +65,7 @@ schema:
   db_sqlite_pool_size: int?
   n8n_block_env_access_in_node: bool?
   n8n_git_node_disable_bare_repos: bool?
-  n8n_proxy_hops: int?
+  n8n_trust_proxy: bool?
   env_vars_list:
     - "match(^[A-Z_0-9.]+: .*$)?"
   cmd_line_args: str?
