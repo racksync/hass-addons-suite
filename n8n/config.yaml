@@ -38,7 +38,7 @@ ports_description:
   "7123/tcp": For webhook and API-related traffic.
 options:
   timezone: Asia/Bangkok
-  n8n_host: homeassistant.local
+  n8n_host: 0.0.0.0
   n8n_port: 5678
   n8n_protocol: http
   webhook_url: ""
@@ -51,7 +51,9 @@ schema:
   timezone: str
   n8n_host: str?
   n8n_port: int
-  n8n_protocol: list(http|https)
+  n8n_protocol:
+    - "http"
+    - "https"
   webhook_url: str?
   n8n_editor_base_url: str?
   n8n_path: str?

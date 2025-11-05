@@ -11,7 +11,7 @@ CONFIG_PATH="/data/options.json"
 export GENERIC_TIMEZONE="$(jq --raw-output '.timezone // empty' $CONFIG_PATH)"
 
 # NEW: Extract new environment variables from options
-export N8N_HOST="$(jq --raw-output '.n8n_host // "homeassistant.local"' $CONFIG_PATH)"
+export N8N_HOST="$(jq --raw-output '.n8n_host // "0.0.0.0"' $CONFIG_PATH)"
 export N8N_PORT="$(jq --raw-output '.n8n_port // 5678' $CONFIG_PATH)"
 export N8N_PROTOCOL="$(jq --raw-output '.n8n_protocol // "http"' $CONFIG_PATH)"
 export WEBHOOK_URL="$(jq --raw-output '.webhook_url // empty' $CONFIG_PATH)"
@@ -95,14 +95,12 @@ EXTERNAL_N8N_URL=${EXTERNAL_URL:-$(echo "$CONFIG" | jq -r ".external_url // \"$L
 EXTERNAL_HA_HOSTNAME=$(echo "$EXTERNAL_N8N_URL" | sed -e "s/https\?:\/\///" | cut -d':' -f1)
 echo "External Home Assistant n8n URL: ${EXTERNAL_N8N_URL}"
 
-# MINIMAL CONFIGURATION - let n8n handle everything
-export N8N_HOST=0.0.0.0
-export N8N_PORT=5678
-
-echo "=== MINIMAL N8N SETUP ==="
-echo "HOST: $N8N_HOST"
-echo "PORT: $N8N_PORT"
-echo "No other configuration - let n8n handle ingress"
+# Use configuration from config.yaml - read from user settings
+echo "=== N8N CONFIGURATION FROM USER SETTINGS ==="
+echo "N8N_HOST: $N8N_HOST (from n8n_host in config)"
+echo "N8N_PORT: $N8N_PORT (from n8n_port in config)"
+echo "N8N_PROTOCOL: $N8N_PROTOCOL (from n8n_protocol in config)"
+echo "Using user-provided configuration from add-on interface"
 export WEBHOOK_URL=${WEBHOOK_URL:-"http://${LOCAL_HA_HOSTNAME}:7123"}
 
 echo "N8N_PATH: ${N8N_PATH}"
