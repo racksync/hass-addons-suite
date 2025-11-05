@@ -1,5 +1,25 @@
 ### CHANGELOG
 
+## 2025.11.2
+### Consolidation
+  - Merge zerotrust and zerotrust-pi into single universal addon
+  - Remove duplicate Raspberry Pi specific version
+  - Update documentation to reflect universal architecture support
+  - Add Raspberry Pi support with armhf-base-raspbian
+### Feature
+  - Replace free-form flag field with protocol dropdown (HTTP2/QUIC)
+  - Add user-friendly protocol selection interface
+  - Improve logging to show selected protocol
+### Security
+  - Enable auth_api for improved security rating
+  - Maintain custom AppArmor profile for enhanced security protection
+  - Improve overall security score while maintaining functionality
+### Localization
+  - Add English (en) translations for addon configuration
+  - Add Thai (th) translations for addon configuration
+  - Improve user experience with multi-language support
+  - Add descriptive field names and help text in both languages
+
 ## 2025.11.1
 ### Update
   - Fix Docker build issues with read-only file system permissions

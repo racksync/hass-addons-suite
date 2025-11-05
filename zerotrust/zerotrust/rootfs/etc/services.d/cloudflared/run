@@ -1,9 +1,11 @@
 #!/usr/bin/with-contenv bashio
 
 TOKEN=$(bashio::config 'token')
+PROTOCOL=$(bashio::config 'protocol')
 
 bashio::log.info "Starting Cloudflare Tunnel Services"
 bashio::log.info "Made with Love from Thailand, Bring to you by RACKSYNC 🇹🇭"
+bashio::log.info "Using protocol: $PROTOCOL"
 
 mkdir -p /root/.cloudflared/
 
@@ -14,13 +16,13 @@ else
    NOUPDATE=" "
 fi
 
-FLAG=$(bashio::config 'flag')
+PROTOCOL_FLAG="--protocol $PROTOCOL"
 
 if bashio::config.true 'config'; then
     bashio::log.info "Fetching tunnel data from config.yaml 🔧"
     exec cp -Rv /ssl/config.yaml /root/.cloudflared/
-    exec cloudflared tunnel $FLAG $NOUPDATE --config /root/.cloudflared/config.yaml run
+    exec cloudflared tunnel $PROTOCOL_FLAG $NOUPDATE --config /root/.cloudflared/config.yaml run
 else
     bashio::log.info "Fetching tunnel data from Token! 🔑"
-    exec cloudflared tunnel $FLAG $NOUPDATE run --token $TOKEN
+    exec cloudflared tunnel $PROTOCOL_FLAG $NOUPDATE run --token $TOKEN
 fi

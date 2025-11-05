@@ -1,0 +1,19 @@
+configuration:
+  token:
+    name: "Tunnel Token"
+    description: "Cloudflare Tunnel authentication token from Zero Trust Dashboard"
+  desc:
+    name: "Description"
+    description: "Optional description for this tunnel configuration"
+  config:
+    name: "Use Config File"
+    description: "Use external config.yaml file instead of token authentication"
+  protocol:
+    name: "Protocol"
+    description: "Choose the tunnel protocol (QUIC recommended for better performance)"
+    options:
+      http2: "HTTP/2"
+      quic: "QUIC"
+  no_autoupdate:
+    name: "Disable Auto Update"
+    description: "Disable automatic cloudflared binary updates"

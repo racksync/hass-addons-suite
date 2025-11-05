@@ -1,7 +1,7 @@
-version: 2025.11.1
+version: 2025.11.2
 slug: racksync-cloudflare-tunnel-zerotrust
-name: Cloudflare Tunnel Zero Trust
-description: Cloudflare Tunnel from RACKSYNC.COM 
+name: "Cloudflare Tunnel Zero Trust"
+description: "Cloudflare Tunnel from RACKSYNC.COM"
 url: https://github.com/racksync/hass-addons-suite/tree/main/zerotrust/zerotrust
 codenotary: devops@racksync.com
 ingress: false
@@ -14,22 +14,23 @@ arch:
   - i386
 startup: system
 hassio_api: false
+auth_api: true
 boot: auto
 host_network: true
 apparmor: true
 host_pid: false
-homeassistant: 2023.8.1
+homeassistant: 2025.10.4
 advanced: true
 stage: stable
 options:
   token: ""
   desc: ""
   config: false
-  flag: ""
+  protocol: "quic"
   no_autoupdate: false
 schema:
   token: str?
   desc: str?
   config: bool?
-  flag: str?
+  protocol: list(http2|quic)?
   no_autoupdate: bool

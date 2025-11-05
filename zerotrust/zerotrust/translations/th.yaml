@@ -1,0 +1,19 @@
+configuration:
+  token:
+    name: "โทเคน Tunnel"
+    description: "โทเคนการยืนยันตัวตน Cloudflare Tunnel จาก Zero Trust Dashboard"
+  desc:
+    name: "คำอธิบาย"
+    description: "คำอธิบายเพิ่มเติมสำหรับการกำหนดค่า tunnel (ไม่จำเป็น)"
+  config:
+    name: "ใช้ Config File"
+    description: "ใช้ไฟล์ config.yaml ภายนอกแทนการยืนยันตัวตนด้วยโทเคน"
+  protocol:
+    name: "โปรโตคอล"
+    description: "เลือกโปรโตคอล tunnel (แนะนำ QUIC สำหรับประสิทธิภาพที่ดีกว่า)"
+    options:
+      http2: "HTTP/2"
+      quic: "QUIC"
+  no_autoupdate:
+    name: "ปิดการอัปเดตอัตโนมัติ"
+    description: "ปิดการอัปเดต cloudflared binary อัตโนมัติ"
