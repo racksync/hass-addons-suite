@@ -1,14 +1,13 @@
----
 configuration:
   timezone:
     name: Timezone
     description: Timezone for n8n instance (e.g., Asia/Bangkok)
   n8n_host:
     name: n8n Host
-    description: Hostname for n8n service (default: homeassistant.local)
+    description: Hostname for n8n service (default: 0.0.0.0) 
   n8n_port:
     name: n8n Port
-    description: Port for n8n service (default: 5678)
+    description: Port for n8n service (default: 5678) 
   n8n_protocol:
     name: n8n Protocol
     description: Protocol for n8n service (http or https)
@@ -20,10 +19,19 @@ configuration:
     description: Base URL for n8n editor interface (leave empty for auto-detection)
   n8n_path:
     name: n8n Path
-    description: Path for n8n service (default: /)
+    description: Path for n8n service 
   n8n_metrics:
     name: Enable Metrics
     description: Enable metrics collection for n8n
+  db_sqlite_pool_size:
+    name: SQLite Pool Size
+    description: Number of SQLite read connections for better performance (default: 10)
+  n8n_block_env_access_in_node:
+    name: Block Environment Access in Code Node
+    description: Allow environment variable access in Code Nodes (default: false)
+  n8n_git_node_disable_bare_repos:
+    name: Disable Git Bare Repositories
+    description: Disable bare repository support in Git Node for security (default: true)
   env_vars_list:
     name: Environment Variables
     description: List of environment variables in format KEY:VALUE (e.g., N8N_LOG_LEVEL:info)
