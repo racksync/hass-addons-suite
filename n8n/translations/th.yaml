@@ -1,44 +1,45 @@
+---
 configuration:
   timezone:
-    name: เขตเวลา
-    description: โซนเวลาสำหรับอินสแตนซ์ n8n (เช่น Asia/Bangkok)
+    name: "เขตเวลา"
+    description: "โซนเวลาสำหรับอินสแตนซ์ n8n (เช่น Asia/Bangkok)"
   n8n_host:
-    name: โฮสต์ n8n
-    description: ชื่อโฮสต์สำหรับบริการ n8n (ค่าเริ่มต้น: 0.0.0.0)
+    name: "โฮสต์ n8n"
+    description: "ชื่อโฮสต์สำหรับบริการ n8n (ค่าเริ่มต้น: 0.0.0.0)"
   n8n_port:
-    name: พอร์ต n8n
-    description: พอร์ตสำหรับบริการ n8n (ค่าเริ่มต้น: 5678)
+    name: "พอร์ต n8n"
+    description: "พอร์ตสำหรับบริการ n8n (ค่าเริ่มต้น: 5678)"
   n8n_protocol:
-    name: โปรโตคอล n8n
-    description: โปรโตคอลสำหรับ n8n (http หรือ https)
+    name: "โปรโตคอล n8n"
+    description: "โปรโตคอลสำหรับ n8n (http หรือ https)"
   webhook_url:
-    name: URL Webhook
-    description: URL webhook ภายนอก (ปล่อยว่างสำหรับตรวจจับอัตโนมัติ)
+    name: "URL Webhook"
+    description: "URL webhook ภายนอก (ปล่อยว่างสำหรับตรวจจับอัตโนมัติ)"
   n8n_editor_base_url:
-    name: URL ฐานของเอดิเตอร์
-    description: URL ฐานสำหรับอินเทอร์เฟซเอดิเตอร์ n8n (ปล่อยว่างสำหรับตรวจจับอัตโนมัติ)
+    name: "URL ฐานของเอดิเตอร์"
+    description: "URL ฐานสำหรับอินเทอร์เฟซเอดิเตอร์ n8n (ปล่อยว่างสำหรับตรวจจับอัตโนมัติ)"
   n8n_path:
-    name: เส้นทาง n8n
-    description: เส้นทางสำหรับบริการ n8n 
+    name: "เส้นทาง n8n"
+    description: "เส้นทางสำหรับบริการ n8n"
   n8n_metrics:
-    name: เปิดใช้งานการวัดผล
-    description: เปิดใช้งานการรวบรวมข้อมูลการวัดผลสำหรับ n8n
+    name: "เปิดใช้งานการวัดผล"
+    description: "เปิดใช้งานการรวบรวมข้อมูลการวัดผลสำหรับ n8n"
   db_sqlite_pool_size:
-    name: ขนาดพูล SQLite
-    description: จำนวนการเชื่อมต่อ SQLite สำหรับประสิทธิภาพที่ดีขึ้น (ค่าเริ่มต้น: 10)
+    name: "ขนาดพูล SQLite"
+    description: "จำนวนการเชื่อมต่อ SQLite สำหรับประสิทธิภาพที่ดีขึ้น (ค่าเริ่มต้น: 10)"
   n8n_block_env_access_in_node:
-    name: บล็อกการเข้าถึงตัวแปรสภาพแวดล้อมใน Code Node
-    description: อนุญาตให้เข้าถึงตัวแปรสภาพแวดล้อมใน Code Nodes (ค่าเริ่มต้น: false)
+    name: "บล็อกการเข้าถึงตัวแปรสภาพแวดล้อมใน Code Node"
+    description: "อนุญาตให้เข้าถึงตัวแปรสภาพแวดล้อมใน Code Nodes (ค่าเริ่มต้น: false)"
   n8n_git_node_disable_bare_repos:
-    name: ปิดใช้งาน Git Bare Repositories
-    description: ปิดใช้งาน bare repository ใน Git Node เพื่อความปลอดภัย (ค่าเริ่มต้น: true)
+    name: "ปิดใช้งาน Git Bare Repositories"
+    description: "ปิดใช้งาน bare repository ใน Git Node เพื่อความปลอดภัย (ค่าเริ่มต้น: true)"
   env_vars_list:
-    name: ตัวแปรสภาพแวดล้อม
-    description: รายการตัวแปร .env ในรูปแบบ KEY:VALUE (เช่น N8N_LOG_LEVEL:info)
+    name: "ตัวแปรสภาพแวดล้อม"
+    description: "รายการตัวแปร .env ในรูปแบบ KEY:VALUE (เช่น N8N_LOG_LEVEL:info)"
   cmd_line_args:
-    name: อาร์กิวเมนต์บรรทัดคำสั่ง
-    description: อาร์กิวเมนต์บรรทัดคำสั่งเพิ่มเติมที่จะส่งให้ n8n ขณะเริ่มต้น (ไม่จำเป็น)
+    name: "อาร์กิวเมนต์บรรทัดคำสั่ง"
+    description: "อาร์กิวเมนต์บรรทัดคำสั่งเพิ่มเติมที่จะส่งให้ n8n ขณะเริ่มต้น (ไม่จำเป็น)"
 
 network:
-  5678/tcp: พอร์ตซิ่ง (ก่อนเปิดขอให้เข้าใจว่ากำลังทำอะไรอยู่) สำหรับการรับส่งข้อมูล n8n ทั้งหมด โดยปกติจะไม่เปิดเผย เนื่องจาก Home Assistant Ingress มีความปลอดภัยมากกว่า คุณอาจเปิดพอร์ตนี้หากต้องการข้ามการใช้ Ingress 
-  7123/tcp: พอร์ตสำหรับการเรียกใช้ Webhook และ API ใช้เพื่อให้สามารถทำงานภายใต้ Home Assistant Ingress ในขณะที่ยังอนุญาตให้ช่องทางการสื่อสารสาธารณะบางส่วนทำงานได้
+  5678/tcp: "พอร์ตซิ่ง (ก่อนเปิดขอให้เข้าใจว่ากำลังทำอะไรอยู่) สำหรับการรับส่งข้อมูล n8n ทั้งหมด โดยปกติจะไม่เปิดเผย เนื่องจาก Home Assistant Ingress มีความปลอดภัยมากกว่า คุณอาจเปิดพอร์ตนี้หากต้องการข้ามการใช้ Ingress"
+  7123/tcp: "พอร์ตสำหรับการเรียกใช้ Webhook และ API ใช้เพื่อให้สามารถทำงานภายใต้ Home Assistant Ingress ในขณะที่ยังอนุญาตให้ช่องทางการสื่อสารสาธารณะบางส่วนทำงานได้"
