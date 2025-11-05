@@ -96,22 +96,34 @@ EXTERNAL_HA_HOSTNAME=$(echo "$EXTERNAL_N8N_URL" | sed -e "s/https\?:\/\///" | cu
 echo "External Home Assistant n8n URL: ${EXTERNAL_N8N_URL}"
 
 # Configure n8n for Home Assistant ingress
-# Use simple path-based configuration that works with HA ingress
 export N8N_PATH="/"
 
-# For HA ingress, we need to set the base URL to the external URL
-# This allows n8n to generate correct URLs for external access
-export N8N_EDITOR_BASE_URL="$EXTERNAL_N8N_URL"
+# For HA ingress, disable the base URL to let n8n auto-detect
+# This is critical for making n8n work properly through HA ingress
+unset N8N_EDITOR_BASE_URL
 
-echo "Configured for HA ingress: N8N_PATH=$N8N_PATH, N8N_EDITOR_BASE_URL=$N8N_EDITOR_BASE_URL"
+echo "=== INGRESS DEBUGGING ==="
+echo "External URL: $EXTERNAL_N8N_URL"
+echo "Ingress Path: $INGRESS_PATH"
+echo "Ingress Entry: $INGRESS_ENTRY"
+echo "N8N_PATH: $N8N_PATH"
+echo "N8N_EDITOR_BASE_URL: ${N8N_EDITOR_BASE_URL:-<not set>}"
 
-# Test if nginx is accessible from within the container
-echo "Testing nginx connectivity..."
-curl -s -o /dev/null -w "%{http_code}" http://localhost:8765/ || echo "Nginx not accessible on port 8765"
+# Test connectivity
+echo "=== CONNECTIVITY TESTS ==="
+echo "Testing nginx on port 8765..."
+timeout 5 curl -s http://localhost:8765/ > /dev/null && echo "✅ nginx accessible" || echo "❌ nginx not accessible"
 
-# Test if n8n is accessible directly
-echo "Testing n8n connectivity..."
-curl -s -o /dev/null -w "%{http_code}" http://localhost:5678/ || echo "n8n not accessible on port 5678"
+echo "Testing n8n on port 5678..."
+timeout 5 curl -s http://localhost:5678/ > /dev/null && echo "✅ n8n accessible" || echo "❌ n8n not accessible"
+
+echo "Testing nginx -> n8n proxy..."
+timeout 5 curl -s -H "Host: test" http://localhost:8765/ > /dev/null && echo "✅ nginx proxy working" || echo "❌ nginx proxy not working"
+
+# Show what nginx should be serving
+echo "=== NGINX CONFIGURATION ==="
+echo "nginx listening on: 8765"
+echo "nginx forwarding to: localhost:5678"
 export WEBHOOK_URL=${WEBHOOK_URL:-"http://${LOCAL_HA_HOSTNAME}:7123"}
 
 echo "N8N_PATH: ${N8N_PATH}"
