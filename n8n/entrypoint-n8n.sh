@@ -78,7 +78,9 @@ ADDON_INFO=${ADDON_INFO:-'{}'}
 echo "Fetched Add-on Info from Supervisor: ${ADDON_INFO}"
 
 INGRESS_PATH=$(echo "$ADDON_INFO" | jq -r '.data.ingress_url // "/"')
+INGRESS_ENTRY=$(echo "$ADDON_INFO" | jq -r '.data.ingress_entry // ""')
 echo "Extracted Ingress Path from Supervisor: ${INGRESS_PATH}"
+echo "Extracted Ingress Entry from Supervisor: ${INGRESS_ENTRY}"
 
 # Get the port from the configuration
 LOCAL_HA_PORT=$(echo "$CONFIG" | jq -r '.port // "8123"')
@@ -93,14 +95,24 @@ EXTERNAL_N8N_URL=${EXTERNAL_URL:-$(echo "$CONFIG" | jq -r ".external_url // \"$L
 EXTERNAL_HA_HOSTNAME=$(echo "$EXTERNAL_N8N_URL" | sed -e "s/https\?:\/\///" | cut -d':' -f1)
 echo "External Home Assistant n8n URL: ${EXTERNAL_N8N_URL}"
 
-# For ingress access, use relative URLs to work with any path
-# This ensures ingress works properly regardless of the ingress path
+# Configure n8n for reverse proxy (ingress) compatibility
 export N8N_PATH="/"
 
-# IMPORTANT: Use relative URL for ingress compatibility
-# This allows n8n to work through any ingress path
-export N8N_EDITOR_BASE_URL="/"
-echo "Using relative URLs for ingress compatibility: N8N_PATH=$N8N_PATH, N8N_EDITOR_BASE_URL=$N8N_EDITOR_BASE_URL"
+# Set base URL to work through Home Assistant ingress
+# Use the ingress entry URL but construct it for internal use
+if [ -n "$INGRESS_ENTRY" ]; then
+    export N8N_EDITOR_BASE_URL="$INGRESS_ENTRY"
+else
+    export N8N_EDITOR_BASE_URL="/"
+fi
+
+# Configure n8n to work behind reverse proxy
+export N8N_PROXY_TRUST_HEADER="x-forwarded-for"
+export N8N_PROXY_HOST="localhost"
+export N8N_PROXY_PORT=8765
+
+echo "Configured for reverse proxy: N8N_PATH=$N8N_PATH, N8N_EDITOR_BASE_URL=$N8N_EDITOR_BASE_URL"
+echo "Proxy settings: N8N_PROXY_HOST=$N8N_PROXY_HOST, N8N_PROXY_PORT=$N8N_PROXY_PORT"
 export WEBHOOK_URL=${WEBHOOK_URL:-"http://${LOCAL_HA_HOSTNAME}:7123"}
 
 echo "N8N_PATH: ${N8N_PATH}"
