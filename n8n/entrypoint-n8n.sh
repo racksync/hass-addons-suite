@@ -93,8 +93,10 @@ EXTERNAL_N8N_URL=${EXTERNAL_URL:-$(echo "$CONFIG" | jq -r ".external_url // \"$L
 EXTERNAL_HA_HOSTNAME=$(echo "$EXTERNAL_N8N_URL" | sed -e "s/https\?:\/\///" | cut -d':' -f1)
 echo "External Home Assistant n8n URL: ${EXTERNAL_N8N_URL}"
 
+# For ingress access, use the internal URL with ingress path
+INTERNAL_N8N_URL="http://localhost:8765${INGRESS_PATH}"
 export N8N_PATH=${N8N_PATH:-"${INGRESS_PATH}"}
-export N8N_EDITOR_BASE_URL=${N8N_EDITOR_BASE_URL:-"${EXTERNAL_N8N_URL}${N8N_PATH}"}
+export N8N_EDITOR_BASE_URL=${N8N_EDITOR_BASE_URL:-"$INTERNAL_N8N_URL"}
 export WEBHOOK_URL=${WEBHOOK_URL:-"http://${LOCAL_HA_HOSTNAME}:7123"}
 
 echo "N8N_PATH: ${N8N_PATH}"
