@@ -1,5 +1,12 @@
 ### CHANGELOG
 
+## 2025.11.2
+
+### Bug Fixes
+  - Fixed configuration schema for custom_collectors, ignore_mount_points, and ignore_network_devices
+  - Corrected Home Assistant add-on schema format from list(str)? to proper YAML list format
+  - Resolves configuration validation errors on add-on startup
+
 ## 2025.11.1
 
 ### Release Notes
