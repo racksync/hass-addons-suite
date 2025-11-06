@@ -39,7 +39,7 @@ ports_description:
   "7123/tcp": For webhook and API-related traffic.
 options:
   timezone: Asia/Bangkok
-  n8n_host: 0.0.0.0
+  n8n_host: 127.0.0.1
   n8n_port: 5678
   webhook_url: ""
   n8n_editor_base_url: ""

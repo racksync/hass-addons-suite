@@ -111,12 +111,12 @@ export USER_TIMEZONE
 log_config "System timezone set to: ${TZ} (for add-on logs only)"
 
 # NEW: Extract new environment variables from options
-export N8N_HOST="$(jq --raw-output '.n8n_host // "0.0.0.0"' $CONFIG_PATH)"
+export N8N_HOST="$(jq --raw-output '.n8n_host // "127.0.0.1"' $CONFIG_PATH)"
 export N8N_PORT="$(jq --raw-output '.n8n_port // 5678' $CONFIG_PATH)"
 export N8N_PROTOCOL="$(jq --raw-output '.n8n_protocol // "http"' $CONFIG_PATH)"
 export WEBHOOK_URL="$(jq --raw-output '.webhook_url // empty' $CONFIG_PATH)"
 export N8N_EDITOR_BASE_URL="$(jq --raw-output '.n8n_editor_base_url // empty' $CONFIG_PATH)"
-export N8N_PATH="$(jq --raw-output '.n8n_path // "/"' $CONFIG_PATH)"
+export N8N_PATH="$(jq --raw-output '.n8n_path // ""' $CONFIG_PATH)"
 export N8N_METRICS="$(jq --raw-output '.n8n_metrics // "false"' $CONFIG_PATH)"
 export N8N_LOG_LEVEL="$(jq --raw-output '.n8n_log_level // "info"' $CONFIG_PATH)"
 
@@ -201,6 +201,26 @@ INGRESS_ENTRY=$(echo "$ADDON_INFO" | jq -r '.data.ingress_entry // ""')
 log_network "Ingress path configured: ${INGRESS_PATH}"
 log_network "Ingress entry: ${INGRESS_ENTRY}"
 
+# Set the correct base URL for n8n when running behind ingress
+if [ -n "$N8N_EDITOR_BASE_URL" ]; then
+  log_config "Using user-provided editor base URL: ${N8N_EDITOR_BASE_URL}"
+else
+  # Auto-detect base URL from ingress configuration
+  if [ -n "$INGRESS_PATH" ] && [ "$INGRESS_PATH" != "/" ]; then
+    export N8N_EDITOR_BASE_URL="${INGRESS_PATH}"
+    log_config "Auto-detected editor base URL from ingress: ${N8N_EDITOR_BASE_URL}"
+  else
+    # Get external URL from Home Assistant configuration
+    EXTERNAL_URL=$(echo "$CONFIG" | jq -r '.external_url // empty')
+    if [ -n "$EXTERNAL_URL" ]; then
+      export N8N_EDITOR_BASE_URL="${EXTERNAL_URL}"
+      log_config "Using Home Assistant external URL: ${N8N_EDITOR_BASE_URL}"
+    else
+      log_config "No base URL configured, using default (may cause owner setup issues)"
+    fi
+  fi
+fi
+
 # Get the port from the configuration
 LOCAL_HA_PORT=$(echo "$CONFIG" | jq -r '.port // "8123"')
 
@@ -249,7 +269,7 @@ log_success "  SSL certificate verification enabled (SECURE)"
 export WEBHOOK_URL=${WEBHOOK_URL:-"http://${LOCAL_HA_HOSTNAME}:7123"}
 
 log_network "N8N Path: ${N8N_PATH:-"default"}"
-log_network "Editor Base URL: ${N8N_EDITOR_BASE_URL:-"auto"}"
+log_network "Editor Base URL: ${N8N_EDITOR_BASE_URL:-"auto-detected"}"
 log_network "Webhook URL: ${WEBHOOK_URL}"
 log_config "N8N Log Level: ${N8N_LOG_LEVEL}"
 log_config "Timezone: ${GENERIC_TIMEZONE:-UTC}"
