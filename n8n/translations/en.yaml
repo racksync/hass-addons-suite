@@ -5,10 +5,10 @@ configuration:
     description: "Timezone for n8n instance (e.g Asia/Bangkok)"
   n8n_host:
     name: "n8n Host"
-    description: "Hostname for n8n service (default 0.0.0.0)"
+    description: "Hostname for n8n service (default 127.0.0.1)"
   n8n_port:
     name: "n8n Port"
-    description: "Port for n8n service (default 5678)"
+    description: "Internal port for n8n service (default 5678)"
   n8n_protocol:
     name: "n8n Protocol"
     description: "Protocol for n8n service (http or https)"
@@ -47,5 +47,6 @@ configuration:
     description: "Additional command line arguments to pass to n8n when starting (optional)"
 
 network:
-  "5678/tcp": "The port for all n8n traffic. Expose it at your own risk."
-  "7123/tcp": "The port for n8n webhook and API-related traffic."
+  "5678/tcp": "Internal n8n port (not exposed). Used by nginx reverse proxy."
+  "5690/tcp": "The port for main n8n UI via nginx reverse proxy."
+  "7123/tcp": "For webhook and API-related traffic."

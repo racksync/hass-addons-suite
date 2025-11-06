@@ -116,9 +116,12 @@ export N8N_PORT="$(jq --raw-output '.n8n_port // 5678' $CONFIG_PATH)"
 export N8N_PROTOCOL="$(jq --raw-output '.n8n_protocol // "http"' $CONFIG_PATH)"
 export WEBHOOK_URL="$(jq --raw-output '.webhook_url // empty' $CONFIG_PATH)"
 export N8N_EDITOR_BASE_URL="$(jq --raw-output '.n8n_editor_base_url // empty' $CONFIG_PATH)"
-export N8N_PATH="$(jq --raw-output '.n8n_path // ""' $CONFIG_PATH)"
+export N8N_PATH="$(jq --raw-output '.n8n_path // "/"' $CONFIG_PATH)"
 export N8N_METRICS="$(jq --raw-output '.n8n_metrics // "false"' $CONFIG_PATH)"
 export N8N_LOG_LEVEL="$(jq --raw-output '.n8n_log_level // "info"' $CONFIG_PATH)"
+
+# Configure webhook port for n8n (internal port 5678, proxied through nginx on 7123)
+export N8N_WEBHOOK_URL="${WEBHOOK_URL:-"http://127.0.0.1:7123"}"
 
 # SSL Certificate Configuration (SECURE)
 export N8N_SSL_CERT="/ssl/$(jq --raw-output '.certfile // empty' $CONFIG_PATH)"
@@ -201,23 +204,36 @@ INGRESS_ENTRY=$(echo "$ADDON_INFO" | jq -r '.data.ingress_entry // ""')
 log_network "Ingress path configured: ${INGRESS_PATH}"
 log_network "Ingress entry: ${INGRESS_ENTRY}"
 
-# Set the correct base URL for n8n when running behind ingress
+# Set the correct base URL for n8n when running behind nginx
 if [ -n "$N8N_EDITOR_BASE_URL" ]; then
   log_config "Using user-provided editor base URL: ${N8N_EDITOR_BASE_URL}"
 else
-  # Auto-detect base URL from ingress configuration
-  if [ -n "$INGRESS_PATH" ] && [ "$INGRESS_PATH" != "/" ]; then
-    export N8N_EDITOR_BASE_URL="${INGRESS_PATH}"
-    log_config "Auto-detected editor base URL from ingress: ${N8N_EDITOR_BASE_URL}"
+  # Use the external URL for n8n when behind nginx reverse proxy
+  EXTERNAL_URL=$(echo "$CONFIG" | jq -r '.external_url // empty')
+  if [ -n "$EXTERNAL_URL" ]; then
+    export N8N_EDITOR_BASE_URL="${EXTERNAL_URL}"
+    log_config "Using Home Assistant external URL: ${N8N_EDITOR_BASE_URL}"
   else
-    # Get external URL from Home Assistant configuration
-    EXTERNAL_URL=$(echo "$CONFIG" | jq -r '.external_url // empty')
-    if [ -n "$EXTERNAL_URL" ]; then
-      export N8N_EDITOR_BASE_URL="${EXTERNAL_URL}"
-      log_config "Using Home Assistant external URL: ${N8N_EDITOR_BASE_URL}"
-    else
-      log_config "No base URL configured, using default (may cause owner setup issues)"
-    fi
+    export N8N_EDITOR_BASE_URL="http://localhost:5678"
+    log_config "Using default base URL: ${N8N_EDITOR_BASE_URL}"
+  fi
+fi
+
+# Set the webhook URL for n8n when behind nginx
+if [ -n "$WEBHOOK_URL" ]; then
+  export N8N_WEBHOOK_URL="${WEBHOOK_URL}"
+  log_config "Using user-provided webhook URL: ${N8N_WEBHOOK_URL}"
+else
+  # Use the external URL with port 7123 for webhooks
+  EXTERNAL_URL=$(echo "$CONFIG" | jq -r '.external_url // empty')
+  if [ -n "$EXTERNAL_URL" ]; then
+    # Extract base URL and change port to 7123 for webhooks
+    WEBHOOK_BASE=$(echo "$EXTERNAL_URL" | sed 's/:8123//;s/:80//;s/:443//')
+    export N8N_WEBHOOK_URL="${WEBHOOK_BASE}:7123"
+    log_config "Auto-detected webhook URL: ${N8N_WEBHOOK_URL}"
+  else
+    export N8N_WEBHOOK_URL="http://localhost:7123"
+    log_config "Using default webhook URL: ${N8N_WEBHOOK_URL}"
   fi
 fi
 
@@ -363,6 +379,6 @@ if [ "$#" -gt 0 ]; then
   exec n8n "${N8N_CMD_LINE}"
 else
   # Got started without arguments
-  log_info "Launching n8n with default configuration"
+  log_info "Launching n8n on port ${N8N_PORT}"
   exec n8n
 fi
