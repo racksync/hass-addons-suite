@@ -1,45 +1,51 @@
 ---
 configuration:
   timezone:
-    name: Timezone
-    description: Timezone for n8n instance (e.g Asia/Bangkok)
+    name: "Timezone"
+    description: "Timezone for n8n instance (e.g Asia/Bangkok)"
   n8n_host:
-    name: n8n Host
-    description: Hostname for n8n service (default 0.0.0.0)
+    name: "n8n Host"
+    description: "Hostname for n8n service (default 0.0.0.0)"
   n8n_port:
-    name: n8n Port
-    description: Port for n8n service (default 5678)
+    name: "n8n Port"
+    description: "Port for n8n service (default 5678)"
   n8n_protocol:
-    name: n8n Protocol
-    description: Protocol for n8n service (http or https)
+    name: "n8n Protocol"
+    description: "Protocol for n8n service (http or https)"
   webhook_url:
-    name: Webhook URL
-    description: External webhook URL (leave empty for auto-detection)
+    name: "Webhook URL"
+    description: "External webhook URL (leave empty for auto-detection)"
   n8n_editor_base_url:
-    name: Editor Base URL
-    description: Base URL for n8n editor interface (leave empty for auto-detection)
+    name: "Editor Base URL"
+    description: "Base URL for n8n editor interface (leave empty for auto-detection)"
   n8n_path:
-    name: n8n Path
-    description: Path for n8n service
+    name: "n8n Path"
+    description: "Path for n8n service"
   n8n_metrics:
-    name: Enable Metrics
-    description: Enable metrics collection for n8n
+    name: "Enable Metrics"
+    description: "Enable metrics collection for n8n"
+  n8n_log_level:
+    name: "Log Level"
+    description: "n8n log output level (default info, silent for no logs)"
   db_sqlite_pool_size:
-    name: SQLite Pool Size
-    description: Number of SQLite read connections for better performance (default 10)
+    name: "SQLite Pool Size"
+    description: "Number of SQLite read connections for better performance (default 10)"
   n8n_block_env_access_in_node:
-    name: Block Environment Access in Code Node
-    description: Allow environment variable access in Code Nodes (default false)
+    name: "Block Environment Access in Code Node"
+    description: "Allow environment variable access in Code Nodes (default false)"
   n8n_git_node_disable_bare_repos:
-    name: Disable Git Bare Repositories
-    description: Disable bare repository support in Git Node for security (default true)
+    name: "Disable Git Bare Repositories"
+    description: "Disable bare repository support in Git Node for security (default true)"
+  n8n_trust_proxy:
+    name: "Trust Proxy"
+    description: "Enable proxy trust for proper header handling when behind reverse proxy (default true)"
   env_vars_list:
-    name: Environment Variables
-    description: List of environment variables in format KEY,VALUE (e.g N8N_LOG_LEVEL,info)
+    name: "Environment Variables"
+    description: "List of environment variables as KEY: VALUE format (one per line)"
   cmd_line_args:
-    name: Command Line Arguments
-    description: Additional command line arguments to pass to n8n when starting (optional)
+    name: "Command Line Arguments"
+    description: "Additional command line arguments to pass to n8n when starting (optional)"
 
 network:
-  5678/tcp: The port for all n8n traffic. Expose it at your own risk.
-  7123/tcp: The port for n8n webhook and API-related traffic.
+  "5678/tcp": "The port for all n8n traffic. Expose it at your own risk."
+  "7123/tcp": "The port for n8n webhook and API-related traffic."

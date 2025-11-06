@@ -2,14 +2,15 @@ name: n8n
 version: 2025.11.2
 slug: hass-addons-n8n
 description: Run n8n instance on Home Assistant
-url: https://github.com/racksync/hass-addons-n8n/tree/main/n8n
+url: https://github.com/racksync/hass-addons-suite/tree/main/n8n
 hassio_api: true
 hassio_role: default
-homeassistant: 2025.10.1
+homeassistant: 2025.11.0
 panel_icon: mdi:transit-connection-variant
 advanced: true
 homeassistant_api: true
 apparmor: true
+backup: cold #  the supervisor turns the add-on off before taking a backup
 arch:
   - armhf
   - armv7
@@ -34,36 +35,38 @@ ports:
   "5678/tcp": null
   "7123/tcp": 7123
 ports_description:
-  "5678/tcp": The port for all n8n traffic. Not exposed by default, 
+  "5678/tcp": The port for all n8n traffic. Not exposed by default,
   "7123/tcp": For webhook and API-related traffic.
 options:
   timezone: Asia/Bangkok
   n8n_host: 0.0.0.0
   n8n_port: 5678
-  n8n_protocol: http
   webhook_url: ""
   n8n_editor_base_url: ""
   n8n_path: ""
   n8n_metrics: false
-  env_vars_list: []
-  cmd_line_args: ""
-  db_sqlite_pool_size: 10
   n8n_block_env_access_in_node: false
   n8n_git_node_disable_bare_repos: true
   n8n_trust_proxy: true
+  n8n_protocol: http
+  n8n_log_level: info
+  db_sqlite_pool_size: 10
+  env_vars_list: []
+  cmd_line_args: ""
 schema:
   timezone: str
   n8n_host: str?
   n8n_port: int
-  n8n_protocol: list(http|https)
   webhook_url: str?
   n8n_editor_base_url: str?
   n8n_path: str?
-  n8n_metrics: bool?
-  db_sqlite_pool_size: int?
+  n8n_metrics: bool?  
   n8n_block_env_access_in_node: bool?
   n8n_git_node_disable_bare_repos: bool?
   n8n_trust_proxy: bool?
+  n8n_protocol: list(http|https)
+  n8n_log_level: list(silent|error|warn|info|debug)?
+  db_sqlite_pool_size: int?
   env_vars_list:
     - "match(^[A-Z_0-9.]+: .*$)?"
   cmd_line_args: str?

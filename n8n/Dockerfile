@@ -1,4 +1,3 @@
-# Simplified direct n8n setup for HA ingress - rebuild v2
 FROM n8nio/n8n:stable
 
 USER root
