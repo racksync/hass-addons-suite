@@ -1,20 +1,139 @@
 #!/usr/bin/with-contenv bashio
 # ==============================================================================
-# Start the example service
+# Start the autossh tunnel service
 # s6-overlay docs: https://github.com/just-containers/s6-overlay
 # ==============================================================================
 
-# Add your code here
+# Wait for setup to complete before starting autossh
+bashio::log.info "Waiting for setup to complete..."
+while [ ! -f /data/setup_complete ]; do
+  if [ -f /data/setup_failed ]; then
+    bashio::log.error "Setup failed, not starting autossh"
+    sleep 5
+    continue
+  fi
+  if [ -f /data/setup_waiting_for_key ]; then
+    bashio::log.info "Setup waiting for SSH key to be configured on remote server"
+    sleep 10
+    continue
+  fi
+  sleep 2
+done
 
-# Declare variables
-#declare message
+bashio::log.info "Setup completed, starting autossh tunnel..."
 
-## Get the 'message' key from the user config options.
-message=$(bashio::config 'note')
+# Get the autossh command that was built and run it directly
+CONFIG_PATH=/data/options.json
+KEY_PATH=/data/ssh_keys
+KNOWN_HOSTS_PATH=/data/.ssh/known_hosts
 
-## Print the message the user supplied, defaults to "Hello World..."
-#bashio::log.info "${desc:="This addon is running with bashio!"}"
+# Read configuration
+HOSTNAME=$(jq --raw-output ".hostname // empty" $CONFIG_PATH)
+SSH_PORT=$(jq --raw-output ".ssh_port // 22" $CONFIG_PATH)
+USERNAME=$(jq --raw-output ".username // \"autossh\"" $CONFIG_PATH)
+REMOTE_FORWARDING=$(jq --raw-output ".remote_forwarding[] // empty" $CONFIG_PATH)
+LOCAL_FORWARDING=$(jq --raw-output ".local_forwarding[] // empty" $CONFIG_PATH)
+OTHER_SSH_OPTIONS=$(jq --raw-output ".other_ssh_options // \"-v\"" $CONFIG_PATH)
+SERVER_ALIVE_INTERVAL=$(jq --raw-output ".server_alive_interval // 30" $CONFIG_PATH)
+SERVER_ALIVE_COUNT_MAX=$(jq --raw-output ".server_alive_count_max // 3" $CONFIG_PATH)
+MONITORING_PORT=$(jq --raw-output ".monitoring_port // 20000" $CONFIG_PATH)
+LOG_LEVEL=$(jq --raw-output ".log_level // \"info\"" $CONFIG_PATH)
 
-## Run your program
-#exec /usr/bin/app
+# Build autossh command
+COMMAND="/usr/bin/autossh -M ${MONITORING_PORT} -N \
+  -o ServerAliveInterval=${SERVER_ALIVE_INTERVAL} \
+  -o ServerAliveCountMax=${SERVER_ALIVE_COUNT_MAX} \
+  -o ExitOnForwardFailure=yes \
+  -o StrictHostKeyChecking=yes \
+  -o UserKnownHostsFile=$KNOWN_HOSTS_PATH \
+  -o ConnectTimeout=10 \
+  -p ${SSH_PORT} \
+  -i ${KEY_PATH}/autossh_key \
+  ${USERNAME}@${HOSTNAME}"
+
+# Use RSA key if ED25519 key is not available
+if [ ! -f "${KEY_PATH}/autossh_key" ]; then
+  COMMAND="/usr/bin/autossh -M ${MONITORING_PORT} -N \
+    -o ServerAliveInterval=${SERVER_ALIVE_INTERVAL} \
+    -o ServerAliveCountMax=${SERVER_ALIVE_COUNT_MAX} \
+    -o ExitOnForwardFailure=yes \
+    -o StrictHostKeyChecking=yes \
+    -o UserKnownHostsFile=$KNOWN_HOSTS_PATH \
+    -o ConnectTimeout=10 \
+    -p ${SSH_PORT} \
+    -i ${KEY_PATH}/autossh_rsa_key \
+    ${USERNAME}@${HOSTNAME}"
+fi
+
+# Function to validate forwarding format
+validate_forwarding() {
+  local forwarding="$1"
+  local type="$2"
+
+  if [[ -z "$forwarding" ]]; then
+    return 0
+  fi
+
+  # Basic validation - should contain at least two colons
+  if [[ ! "$forwarding" =~ :.*: ]]; then
+    bashio::log.error "Bad ${type} forwarding specification '${forwarding}'"
+    bashio::log.error "Expected format: [bind_address:]port:host:hostport"
+    return 1
+  fi
+
+  # Count colons to ensure proper format
+  local colon_count=$(echo "$forwarding" | tr -cd ':' | wc -c)
+  if [[ $colon_count -lt 2 ]]; then
+    bashio::log.error "Bad ${type} forwarding specification '${forwarding}'"
+    bashio::log.error "Expected format: [bind_address:]port:host:hostport"
+    return 1
+  fi
+
+  return 0
+}
+
+# Add remote forwarding rules
+if [ ! -z "${REMOTE_FORWARDING}" ]; then
+  while read -r LINE; do
+    if [ ! -z "$LINE" ]; then
+      if validate_forwarding "$LINE" "remote"; then
+        COMMAND="${COMMAND} -R ${LINE}"
+        bashio::log.info "Remote forwarding: ${LINE}"
+      else
+        bashio::log.error "Invalid remote forwarding rule: ${LINE}"
+        exit 1
+      fi
+    fi
+  done <<< "${REMOTE_FORWARDING}"
+fi
+
+# Add local forwarding rules
+if [ ! -z "${LOCAL_FORWARDING}" ]; then
+  while read -r LINE; do
+    if [ ! -z "$LINE" ]; then
+      if validate_forwarding "$LINE" "local"; then
+        COMMAND="${COMMAND} -L ${LINE}"
+        bashio::log.info "Local forwarding: ${LINE}"
+      else
+        bashio::log.error "Invalid local forwarding rule: ${LINE}"
+        exit 1
+      fi
+    fi
+  done <<< "${LOCAL_FORWARDING}"
+fi
+
+# Add additional SSH options
+COMMAND="${COMMAND} ${OTHER_SSH_OPTIONS}"
+
+bashio::log.info "Configuration summary:"
+bashio::log.info "  Remote: ${USERNAME}@${HOSTNAME}:${SSH_PORT}"
+bashio::log.info "  Monitoring port: ${MONITORING_PORT}"
+bashio::log.info "  Server alive interval: ${SERVER_ALIVE_INTERVAL}s"
+bashio::log.info "  Server alive count max: ${SERVER_ALIVE_COUNT_MAX}"
+
+bashio::log.info "Starting autossh tunnel..."
+/usr/bin/autossh -V
+
+# Execute the command
+exec ${COMMAND}
 

@@ -21,9 +21,11 @@ RUN apk add --no-cache \
 # Copy application files
 COPY rootfs/ /
 COPY run.sh /run.sh
+COPY setup.sh /setup.sh
 
 # Set proper permissions
 RUN chmod +x /run.sh \
+    && chmod +x /setup.sh \
     && chmod 600 /data/.ssh/* 2>/dev/null || true
 
 # Create non-root user for security (optional, commented out for HA compatibility)
