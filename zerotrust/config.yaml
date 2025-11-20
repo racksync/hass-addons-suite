@@ -19,7 +19,7 @@ boot: auto
 host_network: true
 apparmor: true
 host_pid: false
-homeassistant: 2025.10.1
+homeassistant: 2025.11.0
 advanced: true
 stage: stable
 options:
