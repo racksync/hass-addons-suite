@@ -78,6 +78,6 @@ schema:
     time: bool?
     wifi: bool?
     hwmon: bool?
-  custom_collectors: list?
-  ignore_mount_points: list?
-  ignore_network_devices: list?
+  custom_collectors: list(str)?
+  ignore_mount_points: list(str)?
+  ignore_network_devices: list(str)?
