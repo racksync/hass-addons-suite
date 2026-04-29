@@ -1,6 +1,6 @@
 {
   "name": "RS ZB #06",
-  "version": "2.6.0-1",
+  "version": "2.9.2",
   "slug": "racksync-multipoint-zigbee-06",
   "description": "Run Zigbee2MQTT Coordinator separately",
   "uart": true,
